@@ -1,0 +1,80 @@
+// components/Navbar.jsx
+import React, { useState, useEffect } from 'react';
+
+const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-[#eeeee4]/90 backdrop-blur-md shadow-md py-2' 
+          : 'bg-transparent py-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <img 
+              src="/QUIND J.svg" 
+              alt="Quinde Cennial Logo" 
+              className="h-17 w-auto transition-all duration-300"
+            />
+          </div>
+          
+          {/* Navigation Links */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-center space-x-8">
+              {['Home', 'About', 'Events', 'Gallery', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="text-[#572a01] hover:text-[#844C37] font-medium transition-colors duration-200 relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#572a01] transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button className="text-[#572a01] hover:text-[#844C37] focus:outline-none">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Mobile Menu (Hidden by default) */}
+      <div className="md:hidden hidden bg-[#eeeee4]/95 backdrop-blur-md">
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          {['Home', 'About', 'Events', 'Gallery', 'Contact'].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="text-[#572a01] hover:bg-[#d4c9b8] block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

@@ -1,0 +1,17 @@
+
+@font-face {
+  font-family: Avigea;
+  src: url("../src/assets/fonts/Avigea.otf") format("otf");
+}
+
+@import "tailwindcss";
+
+@theme {
+  --default-font-family : "Avigea";
+  --color-brrown: #572a01;
+  --color-cream: #eeeee4;
+   --font-avigea: "Avigea", ;
+}
+
+
+
