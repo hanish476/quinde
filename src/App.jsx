@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import DownloadBrochure from "./components/DownloadBrochure";
 const App = () => {
   return (
-    <>
+    <div className="">
       <Navbar />
       <ScrollShowcase />
       <About />
@@ -16,7 +16,7 @@ const App = () => {
       <DownloadBrochure/>
       <Footer />
 
-    </>
+    </div>
   );
 };
 

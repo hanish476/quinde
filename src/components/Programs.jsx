@@ -1,216 +1,208 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-const ProgramDetails = () => {
-  // Main programs data
-  const mainPrograms = [
+const ProgramsSection = () => {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // --- Colors ---
+  const bgColor = "#eeeee4"; // Cream background
+  const fgColor = "#572a01"; // Brown foreground (text, progress)
+  const badgeBgColorStart = "#c8b8a8"; // Badge bg color at start
+  const badgeBgColorEnd = "#d4c9b8"; // Badge bg color at end
+
+  // --- Program Data ---
+  const programs = [
     {
-      id: 1,
-      title: "Main Program 1",
-      description: "Detailed description of the main program",
-      date: "Date/Time",
-      location: "Location",
-      icon: "/path-to-icon.svg", // Optional icon
+      title: "Opening Ceremony",
+      date: "March 15, 2025",
+      time: "10:00 AM",
+      description: "Join us for the grand opening of our 15th anniversary celebration with distinguished guests and cultural performances.",
+      details: "The opening ceremony will feature speeches from prominent leaders, cultural performances by students, and a historical presentation about HISAN's journey over the past 15 years."
     },
     {
-      id: 2,
-      title: "Main Program 2", 
-      description: "Detailed description of the second main program",
-      date: "Date/Time",
-      location: "Location",
-      icon: "/path-to-icon.svg",
+      title: "Academic Symposium",
+      date: "March 15, 2025",
+      time: "2:00 PM",
+      description: "A day of intellectual discourse and academic excellence showcasing student research and innovations.",
+      details: "The symposium will include paper presentations, panel discussions, and workshops led by esteemed faculty and industry professionals."
     },
+    {
+      title: "Cultural Gala",
+      date: "March 15, 2025",
+      time: "7:00 PM",
+      description: "An evening of music, dance, and cultural performances celebrating the rich heritage of Nahjurashad.",
+      details: "The gala will feature traditional and contemporary performances, student talent showcases, and special guest artists in a grand celebration of culture."
+    }
   ];
 
-  // Other programs data
-  const otherPrograms = [
-    {
-      id: 3,
-      title: "Program 3",
-      description: "Description of other program",
-      date: "Date/Time",
-      location: "Location",
-    },
-    {
-      id: 4,
-      title: "Program 4",
-      description: "Description of other program",
-      date: "Date/Time", 
-      location: "Location",
-    },
-    {
-      id: 5,
-      title: "Program 5",
-      description: "Description of other program",
-      date: "Date/Time",
-      location: "Location",
-    },
-   
-  ];
+  // --- Scroll Animations ---
+  const programCount = programs.length;
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
+  // Calculate scroll ranges for each program's fade in/out
+  const programRanges = programs.map((_, index) => {
+    const start = index / programCount;
+    const end = (index + 1) / programCount;
+    // [startFadeIn, fullOpacity, startFadeOut]
+    return [start, (start + end) / 2, end];
+  });
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
+  // Create opacity transforms for each program
+  const programOpacities = programs.map((_, index) =>
+    useTransform(scrollYProgress, programRanges[index], [0, 1, 0])
+  );
+
+  // Text color transform (brown to cream)
+  // Text is brown for the first half, then fades to cream
+  const textColor = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [fgColor, fgColor, bgColor]
+  );
+
+  // Badge background color transform (fixes the .get() issue)
+  // Badges change color in the second half of the scroll
+  const badgeBgColor = useTransform(
+    scrollYProgress,
+    [0.5, 1],
+    [badgeBgColorStart, badgeBgColorEnd]
+  );
+
+  // --- Progress Bar Animations ---
+
+  // Height of the progress fill line
+  const progressBarHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // An array of background color transforms for each bullet
+  const bulletBgColors = programRanges.map(range =>
+    useTransform(
+      scrollYProgress,
+      // [startFadeIn, fullOpacity]
+      [range[0], range[1]],
+      [bgColor, fgColor],
+      { clamp: true }
+    )
+  );
+
+  // An array of border color transforms for each bullet
+  const bulletBorderColors = programRanges.map(range =>
+    useTransform(
+      scrollYProgress,
+      [range[0], range[1]],
+      [fgColor, bgColor],
+      { clamp: true }
+    )
+  );
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-cream to-[#f5f5f0] relative z-20">
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#572a01] mb-4">
-            Program Details
-          </h2>
-          <p className="text-lg text-[#844C37] max-w-3xl mx-auto">
-            Explore our exciting lineup of events and activities for the celebration
-          </p>
-        </motion.div>
+    <motion.div
+      ref={containerRef}
+      style={{ backgroundColor: bgColor }}
+      // Add z-index to stack correctly with other sections
+      className="h-[500vh] w-full relative z-20"
+    >
+      <motion.div className="relative w-full ">
 
-        {/* Main Programs Section */}
-        <div className="mb-20">
-          <motion.h3 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-2xl md:text-3xl font-semibold text-[#572a01] mb-8 text-center border-l-4 border-[#844C37] pl-4 inline-block mx-auto"
-          >
-            Main Programs
-          </motion.h3>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden" 
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-          >
-            {mainPrograms.map((program) => (
+      </motion.div>
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <motion.p
+        className="absolute top-3/6 text-brrown/10 text-9xl font-bold left-[10%] rotate-90">Programs </motion.p>
+        <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center z-10 pointer-events-none">
+          <div className="w-11/12 md:w-8/12 max-w-4xl p-8 relative h-full">
+            {programs.map((program, index) => (
               <motion.div
-                key={program.id}
-                variants={itemVariants}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-[#d4c9b8] hover:shadow-xl transition-all duration-300"
+                key={index}
+                style={{ opacity: programOpacities[index] }}
+                className="absolute inset-0 flex flex-col items-center justify-center text-center p-8"
               >
-                <div className="flex items-start space-x-4">
-                  {program.icon && (
-                    <div className="flex-shrink-0">
-                      <img 
-                        src={program.icon} 
-                        alt={program.title}
-                        className="h-12 w-12 object-contain"
-                      />
-                    </div>
-                  )}
-                  <div className="flex-1">
-                    <h4 className="text-2xl font-bold text-[#572a01] mb-3">
-                      {program.title}
-                    </h4>
-                    <p className="text-gray-700 mb-4 leading-relaxed">
-                      {program.description}
-                    </p>
-                    <div className="flex flex-wrap gap-4 text-sm text-[#844C37]">
-                      {program.date && (
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          {program.date}
-                        </div>
-                      )}
-                      {program.location && (
-                        <div className="flex items-center">
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                          </svg>
-                          {program.location}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                {/* Program Title */}
+                <motion.h3
+                  className="text-3xl md:text-4xl font-bold mb-4"
+                  style={{ color: textColor }}
+                >
+                  {program.title}
+                </motion.h3>
+
+                {/* Date & Time Badges */}
+                <div className="flex flex-wrap gap-4 mb-6">
+                  <motion.span
+                    className="px-3 py-1 rounded-full text-sm font-medium"
+                    style={{
+                      backgroundColor: badgeBgColor,
+                      color: fgColor // Badge text is always brown
+                    }}
+                  >
+                    {program.date}
+                  </motion.span>
+                  <motion.span
+                    className="px-3 py-1 rounded-full text-sm font-medium"
+                    style={{
+                      backgroundColor: badgeBgColor,
+                      color: fgColor // Badge text is always brown
+                    }}
+                  >
+                    {program.time}
+                  </motion.span>
                 </div>
+
+                {/* Program Description */}
+                <motion.p
+                  className="text-lg md:text-xl mb-6"
+                  style={{ color: textColor }}
+                >
+                  {program.description}
+                </motion.p>
+
+                {/* Program Details */}
+                <motion.p
+                  className="text-base md:text-lg"
+                  style={{ color: textColor }}
+                >
+                  {program.details}
+                </motion.p>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
-        {/* Other Programs Section */}
-        <div>
-          <motion.h3 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="text-2xl md:text-3xl font-semibold text-[#572a01] mb-8 text-center border-l-4 border-[#844C37] pl-4 inline-block mx-auto"
-          >
-            Additional Programs
-          </motion.h3>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {otherPrograms.map((program) => (
+        {/* --- Side Progress Bar --- 
+            Changed from 'fixed' to 'absolute' to be contained by the sticky parent.
+            Increased z-index to appear above content if needed.
+        */}
+        <div className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 z-20 h-64">
+          <div className="relative h-full flex flex-col justify-between items-center">
+            {/* Background Track */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full bg-black/10 rounded-full" />
+
+            {/* Progress Fill */}
+            <motion.div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full rounded-full"
+              style={{
+                height: progressBarHeight,
+                backgroundColor: fgColor
+              }}
+            />
+
+            {/* Bullets */}
+            {programs.map((_, index) => (
               <motion.div
-                key={program.id}
-                variants={itemVariants}
-                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-md border border-[#d4c9b8] hover:shadow-lg transition-all duration-300"
-              >
-                <h4 className="text-xl font-semibold text-[#572a01] mb-3">
-                  {program.title}
-                </h4>
-                <p className="text-gray-600 mb-4 text-sm leading-relaxed">
-                  {program.description}
-                </p>
-                <div className="space-y-2 text-xs text-[#844C37]">
-                  {program.date && (
-                    <div className="flex items-center">
-                      <svg className="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {program.date}
-                    </div>
-                  )}
-                  {program.location && (
-                    <div className="flex items-center">
-                      <svg className="w-3 h-3 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      {program.location}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
+                key={index}
+                className="w-5 h-5 rounded-full border-2 z-10"
+                style={{
+                  backgroundColor: bulletBgColors[index],
+                  borderColor: bulletBorderColors[index]
+                }}
+              />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
-    </section>
+
+    </motion.div>
   );
 };
 
-export default ProgramDetails;
+export default ProgramsSection;

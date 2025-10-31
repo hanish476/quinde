@@ -21,14 +21,14 @@ const Navbar = () => {
           : 'bg-transparent py-4'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-1 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex-shrink-0">
             <img 
-              src="/QUIND J.svg" 
+              src="/QUIND J-cropped.svg" 
               alt="Quinde Cennial Logo" 
-              className="h-17 w-auto transition-all duration-300"
+              className="h-12 w-auto transition-all duration-300"
             />
           </div>
           

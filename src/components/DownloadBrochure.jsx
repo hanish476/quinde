@@ -25,26 +25,26 @@ const DownloadBrochure = () => {
   };
 
   return (
-    <section className="relative z-20 h-[60vh] w-full overflow-hidden bg-gradient-to-br from-[#572a01] to-[#844C37]/10">
+    <section className="relative z-20  sm:h-[60vh] w-full overflow-hidden bg-linear-to-br from-[#6c3602] to-[#8a4b07]">
       {/* Background decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-[#572a01] rounded-full blur-3xl"></div>
         <div className="absolute bottom-1/3 right-1/3 w-40 h-40 bg-[#844C37] rounded-full blur-3xl"></div>
       </div>
       
-      <div className="relative z-10 h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 h-full flex items-center justify-center my-8 px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="max-w-4xl mx-auto text-center flex items-center "
+          className="max-w-4xl mx-auto text-center flex flex-col md:flex-row items-center "
         >
           <motion.div variants={itemVariants} className="mb-8">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#572a01] mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-cream mb-4">
               Download Event Brochure
             </h2>
-            <p className="text-lg md:text-xl text-[#844C37] max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-cream/70 max-w-2xl mx-auto leading-relaxed">
               Get all the details about our 15th Anniversary Celebration, including programs, schedules, and more.
             </p>
           </motion.div>
@@ -67,7 +67,7 @@ const DownloadBrochure = () => {
               </p>
               
               <motion.a
-                href="/path-to-your-brochure.pdf" // Replace with your actual brochure path
+                href="/Quindecennial.pdf" // Replace with your actual brochure path
                 download="quindecennial-celebration-brochure.pdf"
                 className="inline-flex items-center justify-center px-6 py-3 bg-[#572a01] text-white font-semibold rounded-lg hover:bg-[#844C37] hover:shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#572a01]/50 focus:ring-offset-2"
                 whileHover={{ scale: 1.05 }}

@@ -105,7 +105,7 @@ const ScrollShowcase = () => {
     <motion.div
       ref={containerRef}
       style={{ backgroundColor: bgColor }}
-      className="h-[300vh] w-full flex flex-col justify-center items-center overflow-hidden relative"
+      className="h-[270vh] w-full flex flex-col justify-center items-center overflow-hidden relative"
     >
       {/* ==== Scroll Progress Sidebar (hidden on small screens) ==== */}
 
@@ -117,7 +117,7 @@ const ScrollShowcase = () => {
         }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 pointer-events-none"
       >
-        <div className="w-[100rem] h-70 rounded-b-2xl sm:flex sm:justify-between">
+        {/* <div className="w-[100rem] h-70 rounded-b-2xl sm:flex sm:justify-between">
           <div className="hidden sm:block">
             <img src="/logo.svg" alt="" className="h-[20rem] sm:h-[60rem] opacity-20 rotate-90 blur-md" />
           </div>
@@ -127,15 +127,26 @@ const ScrollShowcase = () => {
           <div className="sm:hidden ">
             <img src="/logo.svg" alt="" className="block sm:hidden mx-auto  h-[70rem] opacity-20 " />
           </div>
-          {/* <div className="h-full w-10 bg-blue-800">
 
-            </div> */}
-        </div>
-        <div>
+        </div> */}
+        
+        <div className="w-[100rem]">
           <motion.img
-            src="/QUIND J.svg"
+            src="QUIND J-cropped.svg"
             alt="Quindecennial"
-            className="h-[15rem] sm:h-[25rem] mx-auto mb-4"
+            className=" sm:hidden h-[8rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
+            style={{
+              filter: svgFilter,
+              opacity: quindOpacity,
+              scale: quindScale,
+              color: textColor,
+            }}/>
+
+
+          <motion.img
+            src="/log o quin.svg"
+            alt="Quindecennial"
+            className="hidden sm:block h-[15rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
             style={{
               filter: svgFilter,
               opacity: quindOpacity,
@@ -150,14 +161,25 @@ const ScrollShowcase = () => {
 
       {/* ==== Combined Text and Logo Section (appears after Quindecennial fades) ==== */}
       <motion.div
-        className="bg-gradient-to-t from-brrown/40  fixed top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 pointer-events-none flex flex-col items-center justify-center gap-6"
+        className="bg-gradient-to-t from-brrown/40  fixed top-[90%] w-full left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 pointer-events-none flex flex-col items-center justify-center gap-6"
       >
         {/* Text appears first, scales up, then fades out */}
 
 
         {/* HISAN Logo appears after text fades, scales up */}
-      
+        <div className="   w-[50rem] h-55 md:h-10 rounded-b-2xl sm:flex sm:justify-between">
+          <div className="hidden sm:block">
+            <img src="/logo.svg" alt="" className="h-[20rem] sm:h-[60rem] opacity-20 rotate-90 blur-md" />
+          </div>
+          <div className="hidden sm:block">
+            <img src="/logo.svg" alt="" className="hidden sm:block sm:h-[60rem] opacity-20 blur-md" />
+          </div>
+          <div className="sm:hidden ">
+            <img src="/logo.svg" alt="" className="block sm:hidden mx-auto  h-[70rem] opacity-20 " />
+          </div>
 
+        </div>
+        <div>
           {/* Foreground HISAN logo */}
           <motion.img
             src="/hisan.svg"
@@ -166,9 +188,11 @@ const ScrollShowcase = () => {
               opacity: combinedLogoOpacity,
               scale: combinedLogoScale,
             }}
-            className="relative z-10 h-[23rem] sm:h-[30rem] object-contain"
+            className="relative z-10 h-[23rem] sm:h-[30rem] mb-[50rem] md:mb-96 object-contain"
           />
-     
+        </div>
+
+
         {/* <motion.p
           style={{
             opacity: combinedTextOpacity,
@@ -181,9 +205,9 @@ const ScrollShowcase = () => {
 
         </motion.p> */}
       </motion.div>
-      <div className="sticky flex justify-center bottom-0 w-full h-[70vh] mt-20 bg-brrown z-10">
+      <div className="sticky flex justify-center bottom-0 w-full h-[70vh] mt-90 md:mt-70 bg-brrown z-10">
         <h1 className="hidden sm:block uppercase text-center text-cream text-2xl lg:text-6xl my-auto font-thin"> 15th Anniversary <br /> Celebration  </h1>
-        <h1 className="block sm:hidden uppercase text-center text-cream text-4xl lg:text-6xl my-auto font-thin leading-13"> <span className="text-6xl">15th</span> <br /> Anniversary <br /> Celebration  </h1>
+        <h1 className="block sm:hidden uppercase text-center text-cream text-2xl my-auto font-thin leading-8"> <span className="text-6xl">15th</span> <br /> Anniversary <br /> Celebration  </h1>
       </div>
       {/* Spacer to ensure the section ends before About section starts */}
       <div className="h-[40vh]"></div>
