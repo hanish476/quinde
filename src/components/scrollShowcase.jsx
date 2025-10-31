@@ -129,18 +129,18 @@ const ScrollShowcase = () => {
           </div>
 
         </div> */}
-        
+
         <div className="w-[100rem]">
           <motion.img
-            src="QUIND J-cropped.svg"
+            src="/log o quin.svg"
             alt="Quindecennial"
-            className=" sm:hidden h-[8rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
+            className=" sm:hidden h-[11rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
             style={{
               filter: svgFilter,
               opacity: quindOpacity,
               scale: quindScale,
               color: textColor,
-            }}/>
+            }} />
 
 
           <motion.img
@@ -167,7 +167,7 @@ const ScrollShowcase = () => {
 
 
         {/* HISAN Logo appears after text fades, scales up */}
-        <div className="   w-[50rem] h-55 md:h-10 rounded-b-2xl sm:flex sm:justify-between">
+        <div className=" opacity-50  w-[50rem] h-55 md:h-10 rounded-b-2xl sm:flex sm:justify-between">
           <div className="hidden sm:block">
             <img src="/logo.svg" alt="" className="h-[20rem] sm:h-[60rem] opacity-20 rotate-90 blur-md" />
           </div>
@@ -188,8 +188,11 @@ const ScrollShowcase = () => {
               opacity: combinedLogoOpacity,
               scale: combinedLogoScale,
             }}
-            className="relative z-10 h-[23rem] sm:h-[30rem] mb-[50rem] md:mb-96 object-contain"
+            className="relative z-10 h-[23rem] sm:h-[30rem] mb-[50rem] md:mb-[40rem] object-contain"
           />
+          <div className="w-10 h-10 bg-black  top-0 left-0 z-20">
+            hanish
+          </div>
         </div>
 
 
@@ -206,8 +209,41 @@ const ScrollShowcase = () => {
         </motion.p> */}
       </motion.div>
       <div className="sticky flex justify-center bottom-0 w-full h-[70vh] mt-90 md:mt-70 bg-brrown z-10">
-        <h1 className="hidden sm:block uppercase text-center text-cream text-2xl lg:text-6xl my-auto font-thin"> 15th Anniversary <br /> Celebration  </h1>
-        <h1 className="block sm:hidden uppercase text-center text-cream text-2xl my-auto font-thin leading-8"> <span className="text-6xl">15th</span> <br /> Anniversary <br /> Celebration  </h1>
+        <h1 className=" uppercase text-center text-cream text-4xl lg:text-7xl my-auto font-bold"> 15th <br /> Anniversary <br /> Celebration  </h1>
+        <div className="hidden absolute opacity-5 sm:flex gap-6">
+          <div className="space-y-1">
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            
+          </div>
+          <div>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+          </div>
+          <div>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+          </div>
+          <div>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+            <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
+
+          </div>
+        </div>
+
+     
       </div>
       {/* Spacer to ensure the section ends before About section starts */}
       <div className="h-[40vh]"></div>

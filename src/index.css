@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @font-face {
+  font-family: 'Montserrat';
   font-family: Avigea;
   src: url("../src/assets/fonts/Avigea.otf") format("otf");
 }
@@ -7,11 +9,16 @@
 @import "tailwindcss";
 
 @theme {
-  --default-font-family : "Avigea";
+  --default-font-family : "Montserrat", sans-serif;
+  --default-font-weight: 900;
   --color-brrown: #572a01;
   --color-cream: #eeeee4;
    --font-avigea: "Avigea", ;
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
 
 
