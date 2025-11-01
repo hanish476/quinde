@@ -8,13 +8,12 @@ const ProgramsSection = () => {
     offset: ["start start", "end end"],
   });
 
-  // --- Colors ---
-  const bgColor = "#eeeee4"; // Cream background
-  const fgColor = "#572a01"; // Brown foreground (text, progress)
-  const badgeBgColorStart = "#c8b8a8"; // Badge bg color at start
-  const badgeBgColorEnd = "#d4c9b8"; // Badge bg color at end
+  // Color theme - maintaining your professional palette
+  const bgColor = "#eeeee4";
+  const fgColor = "#572a01";
+  const accentLight = "#c8b8a8";
+  const accentDark = "#3d1a00";
 
-  // --- Program Data ---
   const programs = [
     {
       title: "Opening Ceremony",
@@ -39,127 +38,94 @@ const ProgramsSection = () => {
     }
   ];
 
-  // --- Scroll Animations ---
   const programCount = programs.length;
 
-  // Calculate scroll ranges for each program's fade in/out
+  // Scroll-based opacity for each program
   const programRanges = programs.map((_, index) => {
     const start = index / programCount;
     const end = (index + 1) / programCount;
-    // [startFadeIn, fullOpacity, startFadeOut]
     return [start, (start + end) / 2, end];
   });
 
-  // Create opacity transforms for each program
   const programOpacities = programs.map((_, index) =>
     useTransform(scrollYProgress, programRanges[index], [0, 1, 0])
   );
 
-  // Text color transform (brown to cream)
-  // Text is brown for the first half, then fades to cream
-  const textColor = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [fgColor, fgColor, bgColor]
-  );
+  // Scale animation for featured content
+  const contentScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
 
-  // Badge background color transform (fixes the .get() issue)
-  // Badges change color in the second half of the scroll
-  const badgeBgColor = useTransform(
-    scrollYProgress,
-    [0.5, 1],
-    [badgeBgColorStart, badgeBgColorEnd]
-  );
-
-  // --- Progress Bar Animations ---
-
-  // Height of the progress fill line
-  const progressBarHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  // An array of background color transforms for each bullet
-  const bulletBgColors = programRanges.map(range =>
-    useTransform(
-      scrollYProgress,
-      // [startFadeIn, fullOpacity]
-      [range[0], range[1]],
-      [bgColor, fgColor],
-      { clamp: true }
-    )
-  );
-
-  // An array of border color transforms for each bullet
-  const bulletBorderColors = programRanges.map(range =>
-    useTransform(
-      scrollYProgress,
-      [range[0], range[1]],
-      [fgColor, bgColor],
-      { clamp: true }
-    )
-  );
+  // Timeline progress
+  const timelineProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <motion.div
       ref={containerRef}
       style={{ backgroundColor: bgColor }}
-      // Add z-index to stack correctly with other sections
-      className="h-[500vh] w-full relative z-20"
+      className="h-[400vh] w-full relative z-30"
     >
-      <motion.div className="relative w-full ">
-
-      </motion.div>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <motion.p
-        className="absolute top-3/6 text-brrown/10 text-9xl font-bold left-[10%] rotate-90">Programs </motion.p>
-        <div className="absolute top-0 left-0 w-full h-screen flex items-center justify-center z-10 pointer-events-none">
-          <div className="w-11/12 md:w-8/12 max-w-4xl p-8 relative h-full">
+        {/* Decorative background line - desktop only */}
+        <div className="hidden md:block absolute left-12 top-0 bottom-0 w-1" style={{ backgroundColor: accentLight }} />
+
+        {/* Main content container */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-full max-w-4xl px-8 md:px-16">
+            
+            {/* Programs content - stacked and animated */}
             {programs.map((program, index) => (
               <motion.div
                 key={index}
-                style={{ opacity: programOpacities[index] }}
-                className="absolute inset-0 flex flex-col items-center justify-center text-center p-8"
+                style={{ opacity: programOpacities[index], scale: contentScale }}
+                className="absolute inset-0 flex flex-col justify-center px-8 md:px-24"
               >
-                {/* Program Title */}
-                <motion.h3
-                  className="text-3xl md:text-4xl font-bold mb-4"
-                  style={{ color: textColor }}
+                {/* Program number indicator */}
+                <motion.div
+                  className="flex items-baseline gap-4 mb-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <span
+                    className="text-6xl font-light"
+                    style={{ color: accentLight }}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div style={{ borderBottomColor: accentLight }} className="flex-grow border-b" />
+                </motion.div>
+
+                {/* Title */}
+                <motion.h2
+                  className="text-5xl md:text-6xl font-light mb-6 tracking-tight"
+                  style={{ color: fgColor }}
                 >
                   {program.title}
-                </motion.h3>
+                </motion.h2>
 
-                {/* Date & Time Badges */}
-                <div className="flex flex-wrap gap-4 mb-6">
-                  <motion.span
-                    className="px-3 py-1 rounded-full text-sm font-medium"
-                    style={{
-                      backgroundColor: badgeBgColor,
-                      color: fgColor // Badge text is always brown
-                    }}
-                  >
-                    {program.date}
-                  </motion.span>
-                  <motion.span
-                    className="px-3 py-1 rounded-full text-sm font-medium"
-                    style={{
-                      backgroundColor: badgeBgColor,
-                      color: fgColor // Badge text is always brown
-                    }}
-                  >
-                    {program.time}
-                  </motion.span>
+                {/* Metadata badges */}
+                <div className="flex flex-wrap gap-6 mb-8">
+                  <div className="flex items-center gap-3">
+                    <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Date</span>
+                    <span style={{ color: fgColor }} className="text-lg">{program.date}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Time</span>
+                    <span style={{ color: fgColor }} className="text-lg">{program.time}</span>
+                  </div>
                 </div>
 
-                {/* Program Description */}
+                {/* Description */}
                 <motion.p
-                  className="text-lg md:text-xl mb-6"
-                  style={{ color: textColor }}
+                  className="text-xl mb-6 leading-relaxed"
+                  style={{ color: fgColor }}
                 >
                   {program.description}
                 </motion.p>
 
-                {/* Program Details */}
+                {/* Details */}
                 <motion.p
-                  className="text-base md:text-lg"
-                  style={{ color: textColor }}
+                  className="text-base leading-relaxed"
+                  style={{ color: accentDark }}
                 >
                   {program.details}
                 </motion.p>
@@ -168,39 +134,51 @@ const ProgramsSection = () => {
           </div>
         </div>
 
-        {/* --- Side Progress Bar --- 
-            Changed from 'fixed' to 'absolute' to be contained by the sticky parent.
-            Increased z-index to appear above content if needed.
-        */}
-        <div className="absolute top-1/2 right-4 md:right-8 -translate-y-1/2 z-20 h-64">
-          <div className="relative h-full flex flex-col justify-between items-center">
-            {/* Background Track */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full bg-black/10 rounded-full" />
+        {/* Bottom horizontal progress bar */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 w-11/12 md:w-80">
+          <div className="relative flex items-center justify-between">
+            {/* Background track */}
+            <div
+              className="absolute left-0 right-0 h-1"
+              style={{ backgroundColor: accentLight }}
+            />
 
-            {/* Progress Fill */}
+            {/* Progress fill */}
             <motion.div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full rounded-full"
+              className="absolute left-0 h-1"
               style={{
-                height: progressBarHeight,
-                backgroundColor: fgColor
+                width: timelineProgress,
+                backgroundColor: fgColor,
               }}
             />
 
-            {/* Bullets */}
+            {/* Bullet points */}
             {programs.map((_, index) => (
               <motion.div
                 key={index}
-                className="w-5 h-5 rounded-full border-2 z-10"
+                className="w-5 h-5 rounded-full border-2 relative z-10"
                 style={{
-                  backgroundColor: bulletBgColors[index],
-                  borderColor: bulletBorderColors[index]
+                  backgroundColor: index < Math.ceil(scrollYProgress.get() * programCount) ? fgColor : bgColor,
+                  borderColor: fgColor,
                 }}
               />
             ))}
           </div>
         </div>
-      </div>
 
+        {/* Top section title */}
+        <motion.div
+          className="absolute top-20 left-5 md:left-24"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h1 className="text-2xl font-medium text-brrown tracking-widest uppercase" >
+            Program Schedule
+          </h1>
+          <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
+        </motion.div>
+      </div>
     </motion.div>
   );
 };

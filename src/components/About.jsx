@@ -18,7 +18,7 @@ const About = () => {
       className="h-fit w-full flex justify-center p-2 sm:p-6 md:p-8 lg:p-10 relative z-20 bg-linear-200 from-0%  to-50% from-brrown to-brrown/30"
       style={{ backgroundColor: bgColor, color: textColor }}
     >
-      <h1 className="absolute opacity-10 max-w-full text-cream  sm:opacity-10  sm:top-5/12  sm:-left-30 sm:rotate-270 font-black text-8xl sm:text-9xl">About</h1>
+      <h1 className="absolute opacity-10 max-w-full text-cream  sm:opacity-20  sm:top-5/12  sm:-left-30 sm:rotate-270 font-black text-8xl sm:text-9xl">About</h1>
       <div className="flex flex-col  items-center gap-6 max-w-7xl mx-auto m-30 sm:m-5">
         <motion.img
           src="/logo.svg"
