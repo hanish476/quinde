@@ -1,24 +1,21 @@
-// components/ProgramsSection.jsx
+// components/Events.jsx
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
-const ProgramsSection = () => {
+const Events = () => {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  const navigate = useNavigate();
-
-  // Color theme - maintaining your professional palette
+  // Color theme variables
   const bgColor = "#eeeee4";
   const fgColor = "#572a01";
   const accentLight = "#c8b8a8";
   const accentDark = "#3d1a00";
 
-  const programs = [
+  const events = [
     {
       title: "Opening Ceremony",
       date: "March 15, 2025",
@@ -39,20 +36,41 @@ const ProgramsSection = () => {
       time: "7:00 PM",
       description: "An evening of music, dance, and cultural performances celebrating the rich heritage of Nahjurashad.",
       details: "The gala will feature traditional and contemporary performances, student talent showcases, and special guest artists in a grand celebration of culture."
+    },
+    {
+      title: "Alumni Meet",
+      date: "March 16, 2025",
+      time: "11:00 AM",
+      description: "Reconnect with fellow alumni and share memories from your time at Nahjurashad.",
+      details: "An exclusive gathering for past students to network, share experiences, and contribute to the future of our institution."
+    },
+    {
+      title: "Sports Tournament",
+      date: "March 16, 2025",
+      time: "2:00 PM",
+      description: "Compete in various sports events representing your departments and win exciting prizes.",
+      details: "A full day of sports activities including football, basketball, volleyball, and traditional games with professional referees and awards ceremony."
+    },
+    {
+      title: "Closing Ceremony",
+      date: "March 16, 2025",
+      time: "6:00 PM",
+      description: "Join us for the grand finale of our 15th anniversary celebration.",
+      details: "The closing ceremony will feature award presentations, cultural performances, and a memorable fireworks display to conclude our celebration."
     }
   ];
 
-  const programCount = programs.length;
+  const eventCount = events.length;
 
-  // Scroll-based opacity for each program
-  const programRanges = programs.map((_, index) => {
-    const start = index / programCount;
-    const end = (index + 1) / programCount;
+  // Scroll-based opacity for each event
+  const eventRanges = events.map((_, index) => {
+    const start = index / eventCount;
+    const end = (index + 1) / eventCount;
     return [start, (start + end) / 2, end];
   });
 
-  const programOpacities = programs.map((_, index) =>
-    useTransform(scrollYProgress, programRanges[index], [0, 1, 0])
+  const eventOpacities = events.map((_, index) =>
+    useTransform(scrollYProgress, eventRanges[index], [0, 1, 0])
   );
 
   // Scale animation for featured content
@@ -61,25 +79,13 @@ const ProgramsSection = () => {
   // Timeline progress
   const timelineProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  // Calculate when to show the "More" button with gradual appearance
-  // Start showing gradually when reaching the second program (index 1)
-  const showMoreButton = useTransform(
-    scrollYProgress,
-    [0.3, 0.33, 0.4], // Start appearing at 30% scroll, fully visible by 40%
-    [0, 0.3, 1]       // Start invisible, gradually become fully visible
-  );
-
-  const handleMoreClick = () => {
-    navigate('/events');
-  };
-
   return (
     <motion.div
       ref={containerRef}
       style={{ backgroundColor: bgColor }}
-      className="h-[400vh] w-full relative z-30"
+      className="h-[600vh] w-full relative z-30"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-screen w-full overflow-hidden pt-20">
         {/* Decorative background line - desktop only */}
         <div className="hidden md:block absolute left-12 top-0 bottom-0 w-1" style={{ backgroundColor: accentLight }} />
 
@@ -87,14 +93,14 @@ const ProgramsSection = () => {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-full max-w-4xl px-8 md:px-16">
 
-            {/* Programs content - stacked and animated */}
-            {programs.map((program, index) => (
+            {/* Events content - stacked and animated */}
+            {events.map((event, index) => (
               <motion.div
                 key={index}
-                style={{ opacity: programOpacities[index], scale: contentScale }}
+                style={{ opacity: eventOpacities[index], scale: contentScale }}
                 className="absolute inset-0 flex flex-col justify-center px-8 md:px-24"
               >
-                {/* Program number indicator */}
+                {/* Event number indicator */}
                 <motion.div
                   className="flex items-baseline gap-4 mb-6"
                   initial={{ opacity: 0 }}
@@ -112,21 +118,21 @@ const ProgramsSection = () => {
 
                 {/* Title */}
                 <motion.h2
-                  className="text-5xl md:text-6xl font-light mb-6 tracking-tight"
+                  className="text-4xl md:text-5xl font-light mb-6 tracking-tight"
                   style={{ color: fgColor }}
                 >
-                  {program.title}
+                  {event.title}
                 </motion.h2>
 
                 {/* Metadata badges */}
                 <div className="flex flex-wrap gap-6 mb-8">
                   <div className="flex items-center gap-3">
                     <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Date</span>
-                    <span style={{ color: fgColor }} className="text-lg">{program.date}</span>
+                    <span style={{ color: fgColor }} className="text-lg">{event.date}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Time</span>
-                    <span style={{ color: fgColor }} className="text-lg">{program.time}</span>
+                    <span style={{ color: fgColor }} className="text-lg">{event.time}</span>
                   </div>
                 </div>
 
@@ -135,7 +141,7 @@ const ProgramsSection = () => {
                   className="text-xl mb-6 leading-relaxed"
                   style={{ color: fgColor }}
                 >
-                  {program.description}
+                  {event.description}
                 </motion.p>
 
                 {/* Details */}
@@ -143,28 +149,10 @@ const ProgramsSection = () => {
                   className="text-base leading-relaxed"
                   style={{ color: accentDark }}
                 >
-                  {program.details}
+                  {event.details}
                 </motion.p>
               </motion.div>
             ))}
-
-            {/* More Button - appears gradually as user scrolls */}
-            <motion.div
-              style={{ opacity: showMoreButton }}
-              className="absolute bottom-20 right-8 md:right-24 z-30"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <motion.button
-                onClick={handleMoreClick}
-                className="px-6 py-3 bg-brrown/90 animate-bounce text-cream rounded-lg font-medium hover:bg-opacity-80 transition-colors shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                More Events
-              </motion.button>
-            </motion.div>
           </div>
         </div>
 
@@ -187,12 +175,12 @@ const ProgramsSection = () => {
             />
 
             {/* Bullet points */}
-            {programs.map((_, index) => (
+            {events.map((_, index) => (
               <motion.div
                 key={index}
                 className="w-5 h-5 rounded-full border-2 relative z-10"
                 style={{
-                  backgroundColor: index < Math.ceil(scrollYProgress.get() * programCount) ? fgColor : bgColor,
+                  backgroundColor: index < Math.ceil(scrollYProgress.get() * eventCount) ? fgColor : bgColor,
                   borderColor: fgColor,
                 }}
               />
@@ -215,7 +203,7 @@ const ProgramsSection = () => {
 
         {/* Background logo on the right */}
         <div
-          className="absolute top-0 right-0 w-5/12 h-full opacity-5  md:opacity-20 pointer-events-none"
+          className="absolute top-0 right-0 w-5/12 h-full opacity-5 md:opacity-20 pointer-events-none"
           style={{
             backgroundImage: `url('/logo.svg')`,
             backgroundRepeat: 'no-repeat',
@@ -231,4 +219,4 @@ const ProgramsSection = () => {
   );
 };
 
-export default ProgramsSection;
+export default Events;
