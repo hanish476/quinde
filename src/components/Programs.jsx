@@ -1,5 +1,5 @@
 // components/ProgramsSection.jsx
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -56,10 +56,10 @@ const ProgramsSection = () => {
   );
 
   // Scale animation for featured content
-  const contentScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+  const contentScale = useTransform(scrollYProgress, [0.8, 0.9, 1], [1, 1, 1]);
 
   // Timeline progress
-  const timelineProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const timelineProgress = useTransform(scrollYProgress, [0, 1], ["70%", "100%"]);
 
   // Calculate when to show the "More" button with gradual appearance
   // Start showing gradually when reaching the second program (index 1)
@@ -73,8 +73,33 @@ const ProgramsSection = () => {
     navigate('/events');
   };
 
+  // Effect to disable smooth scrolling for this component
+  useEffect(() => {
+    // Add style to disable smooth scrolling for this component
+    const style = document.createElement('style');
+    style.id = 'program-section-smooth-scroll';
+    style.textContent = `
+      #program-section-container {
+        scroll-behavior: auto !important;
+      }
+      #program-section-container * {
+        scroll-behavior: auto !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Clean up the style when component unmounts
+    return () => {
+      const existingStyle = document.getElementById('program-section-smooth-scroll');
+      if (existingStyle) {
+        document.head.removeChild(existingStyle);
+      }
+    };
+  }, []);
+
   return (
     <motion.div
+      id="program-section-container" // Add ID for targeting
       ref={containerRef}
       style={{ backgroundColor: bgColor }}
       className="h-[400vh] w-full relative z-30"
@@ -102,8 +127,8 @@ const ProgramsSection = () => {
                   transition={{ delay: 0.2 }}
                 >
                   <span
-                    className="text-6xl font-light"
-                    style={{ color: accentLight }}
+                    className="text-5xl font-bold text-brrown "
+                    
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -112,7 +137,7 @@ const ProgramsSection = () => {
 
                 {/* Title */}
                 <motion.h2
-                  className="text-5xl md:text-6xl font-light mb-6 tracking-tight"
+                  className="text-6xl md:text-6xl font-medium mb-6 tracking-tight"
                   style={{ color: fgColor }}
                 >
                   {program.title}
@@ -158,7 +183,7 @@ const ProgramsSection = () => {
             >
               <motion.button
                 onClick={handleMoreClick}
-                className="px-6 py-3 bg-brrown/90 animate-bounce text-cream rounded-lg font-medium hover:bg-opacity-80 transition-colors shadow-lg"
+                className="px-6 py-3 bg-brrown text-cream rounded-lg font-medium hover:bg-opacity-80 transition-colors shadow-lg"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
