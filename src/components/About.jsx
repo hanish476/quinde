@@ -32,6 +32,7 @@ const About = () => {
           </p>
         </div>
       </div>
+      
       {/* Decorative corner elements */}
 {/* 
       <div className="absolute top-4 md:top-16 left-4 md:left-16 w-16 h-16 rotate-90 ">

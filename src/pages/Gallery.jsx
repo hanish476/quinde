@@ -57,45 +57,9 @@ const Gallery = () => {
           <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
         </motion.div>
 
-        {/* Gallery grid */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl px-8 md:px-16 py-20">
-            <motion.div
-              style={{ opacity: galleryOpacity, scale: galleryScale }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-            >
-              {galleryItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  className="relative overflow-hidden rounded-lg cursor-pointer group"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => setSelectedImage(item)}
-                >
-                  <div 
-                    className="w-full h-48 bg-cover bg-center rounded-lg"
-                    style={{
-                      backgroundImage: `url('/gallery-${item.id}.jpg')`,
-                      backgroundColor: accentLight,
-                      border: `1px solid ${accentLight}`
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
-                      <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center p-4">
-                        <h3 className="font-semibold text-lg">{item.title}</h3>
-                        <p className="text-sm">{item.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-2 text-center">
-                    <h3 className="text-sm font-medium" style={{ color: fgColor }}>{item.title}</h3>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-
+      <div className="absolute top-1/2 left-1/4 text-brrown text-4xl font-medium">
+        <h1>we will update it soon</h1>
+      </div>
         {/* Background logo on the right */}
         <div
           className="absolute top-0 right-0 w-5/12 h-full opacity-5 md:opacity-20 pointer-events-none"

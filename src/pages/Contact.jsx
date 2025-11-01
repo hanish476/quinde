@@ -10,26 +10,22 @@ const Contact = () => {
   const accentDark = "#3d1a00";
 
   const contactInfo = [
-    {
-      title: "Address",
-      value: "Nahjurashad Institute of Technology\nEducational District, Campus Road\nCity, State - 123456",
-      icon: "🏢"
-    },
-    {
-      title: "Phone",
-      value: "+91 98765 43210\n+91 91234 56789",
-      icon: "📞"
-    },
-    {
-      title: "Email",
-      value: "info@quindecennial.com\ncontact@hisan.org",
-      icon: "✉️"
-    },
-    {
-      title: "Office Hours",
-      value: "Monday - Friday: 9:00 AM - 5:00 PM\nSaturday: 10:00 AM - 2:00 PM",
-      icon: "🕒"
-    }
+    // {
+    //   title: "Address",
+    //   value: "Nahjurashad Institute of Technology\nEducational District, Campus Road\nCity, State - 123456",
+
+    // },
+    // {
+    //   title: "Phone",
+    //   value: "+91 98765 43210\n+91 91234 56789",
+   
+    // },
+    // {
+    //   title: "Email",
+    //   value: "info@quindecennial.com\ncontact@hisan.org",
+ 
+    // },
+    
   ];
 
   // Animation variants
@@ -135,27 +131,7 @@ const Contact = () => {
               </motion.div>
             ))}
 
-            {/* Map placeholder */}
-            <motion.div
-              className="mt-8 p-4 rounded-lg"
-              style={{ backgroundColor: accentLight }}
-              variants={itemVariants}
-            >
-              <h3 
-                className="font-semibold text-lg mb-4"
-                style={{ color: fgColor }}
-              >
-                Location
-              </h3>
-              <motion.div 
-                className="w-full h-48 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: bgColor, border: `2px dashed ${accentDark}` }}
-                whileHover={{ scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <span style={{ color: accentDark }}>Map Location</span>
-              </motion.div>
-            </motion.div>
+          
           </motion.div>
 
           {/* Contact Form */}

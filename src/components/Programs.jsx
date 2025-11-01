@@ -233,7 +233,7 @@ const ProgramsSection = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-3xl font-bold text-brrown tracking-widest uppercase">
-            Events
+          Key  Events
           </h1>
           <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
         </motion.div>
