@@ -90,53 +90,16 @@ const Contact = () => {
       {/* Main content container */}
       <div className="max-w-6xl mx-auto px-8 md:px-16 pb-20">
         <motion.div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"
+          className="flex  justify-center items-center"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Contact Information */}
-          <motion.div className="space-y-8">
-            <motion.h2 
-              className="text-3xl md:text-4xl font-light mb-8"
-              style={{ color: fgColor }}
-              variants={itemVariants}
-            >
-              Get in Touch
-            </motion.h2>
-            
-            {contactInfo.map((info, index) => (
-              <motion.div
-                key={index}
-                className="flex items-start gap-4 p-4 rounded-lg"
-                style={{ backgroundColor: accentLight }}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-              >
-                <span className="text-2xl">{info.icon}</span>
-                <div>
-                  <h3 
-                    className="font-semibold text-lg"
-                    style={{ color: fgColor }}
-                  >
-                    {info.title}
-                  </h3>
-                  <p 
-                    className="mt-1 whitespace-pre-line"
-                    style={{ color: accentDark }}
-                  >
-                    {info.value}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-
           
-          </motion.div>
 
           {/* Contact Form */}
           <motion.div
-            className="bg-white p-8 rounded-lg shadow-lg"
+            className="bg-white p-8 rounded-lg shadow-lg w-xl md:w-3xl"
             variants={formItemVariants}
           >
             <motion.h2 

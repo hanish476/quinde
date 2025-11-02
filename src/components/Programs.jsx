@@ -240,7 +240,7 @@ const ProgramsSection = () => {
 
         {/* Background logo on the right */}
         <div
-          className="absolute top-0 right-0 w-5/12 h-full opacity-5  md:opacity-20 pointer-events-none"
+          className="absolute top-0 right-0  md:w-5/12 h-full opacity-5  md:opacity-20 pointer-events-none"
           style={{
             backgroundImage: `url('/logo.svg')`,
             backgroundRepeat: 'no-repeat',

@@ -9,14 +9,7 @@ const Events = () => {
     const accentLight = "#c8b8a8";
     const accentDark = "#3d1a00";
     const events = [
-        // ... (your updated events data here, same as provided before) ...
-        {
-            title: "Opening Ceremony",
-            date: "March 15, 2025",
-            time: "10:00 AM",
-            description: "Join us for the grand opening of our 15th anniversary celebration with distinguished guests and cultural performances.",
-            details: "The opening ceremony will feature speeches from prominent leaders, cultural performances by students, and a historical presentation about HISAN's journey over the past 15 years."
-        },
+       
         {
             title: "Mr. English",
             date: "March 15, 2025",
@@ -164,13 +157,7 @@ const Events = () => {
             description: "Compete in various sports events representing your departments and win exciting prizes.",
             details: "A full day of sports activities including football, basketball, volleyball, and traditional games with professional referees and awards ceremony."
         },
-        {
-            title: "Closing Ceremony",
-            date: "March 16, 2025",
-            time: "6:00 PM",
-            description: "Join us for the grand finale of our 15th anniversary celebration.",
-            details: "The closing ceremony will feature award presentations, cultural performances, and a memorable fireworks display to conclude our celebration."
-        }
+       
     ];
 
     const itemVariants = {
@@ -241,14 +228,9 @@ const Events = () => {
                             <h3 className="text-xl font-semibold mb-2" style={{ color: fgColor }}>
                                 {event.title}
                             </h3>
-                            <div className="mb-2">
-                                <span className="font-medium text-sm" style={{ color: accentLight }}>Date: </span>
-                                <span className="text-sm" style={{ color: fgColor }}>{event.date}</span>
-                            </div>
-                            <div className="mb-3">
-                                <span className="font-medium text-sm" style={{ color: accentLight }}>Time: </span>
-                                <span className="text-sm" style={{ color: fgColor }}>{event.time}</span>
-                            </div>
+                           <div className=" border border-b-2 border-brrown/45 mb-8">
+
+                           </div>
                             <p className="text-sm" style={{ color: accentDark }}>
                                 {event.description}
                             </p>
