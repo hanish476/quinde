@@ -132,9 +132,9 @@ const ScrollShowcase = () => {
 
         <div className="w-[100rem]">
           <motion.img
-            src="/log o quin.svg"
+            src="/qm.svg"
             alt="Quindecennial"
-            className=" sm:hidden h-[11rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
+            className=" sm:hidden h-[31rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
             style={{
               filter: svgFilter,
               opacity: quindOpacity,

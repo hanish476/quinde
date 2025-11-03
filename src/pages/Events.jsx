@@ -1,9 +1,13 @@
 // components/Events.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 
 const Events = () => {
    
+     useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
  const bgColor = "#eeeee4";
     const fgColor = "#572a01";
     const accentLight = "#c8b8a8";

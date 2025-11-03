@@ -1,18 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Add Router
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ScrollShowcase from "./components/scrollShowcase";
 import About from "./components/About";
 import ProgramDetail from "./components/Programs";
 import Footer from "./components/Footer";
 import DownloadBrochure from "./components/DownloadBrochure";
-
 import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
-  import Contact from "./pages/Contact";
+import Contact from "./pages/Contact";
+
+// Scroll to top on every route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 const App = () => {
   return (
     <Router>
+      <ScrollToTop />
       <div className="">
         <Navbar />
         <Routes>
@@ -23,16 +35,15 @@ const App = () => {
                 <ScrollShowcase />
                 <div id="about"><About /></div> 
                 <ProgramDetail />
-                <DownloadBrochure/>
-              
+                <DownloadBrochure />
               </>
             } 
           />
           <Route path="/events" element={<Events />} />
           <Route path="/gallery" element={<Gallery />} />
-         <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
-          <Footer />
+        <Footer />
       </div>
     </Router>
   );

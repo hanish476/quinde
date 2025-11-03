@@ -57,7 +57,7 @@ const Gallery = () => {
           <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
         </motion.div>
 
-      <div className="absolute top-1/2 left-1/4 text-brrown text-4xl font-medium">
+      <div className="absolute top-1/2 left-1/8 md:left-1/4 text-brrown text-3xl md:text-4xl font-medium">
         <h1>we will update it soon</h1>
       </div>
         {/* Background logo on the right */}
