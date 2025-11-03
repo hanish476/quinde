@@ -28,16 +28,18 @@ const App = () => {
       <div className="">
         <Navbar />
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
               <>
                 <ScrollShowcase />
-                <div id="about"><About /></div> 
+                <div id="about" className="relative z-[20] mt-[-5vh]">
+                  <About />
+                </div>
                 <ProgramDetail />
                 <DownloadBrochure />
               </>
-            } 
+            }
           />
           <Route path="/events" element={<Events />} />
           <Route path="/gallery" element={<Gallery />} />

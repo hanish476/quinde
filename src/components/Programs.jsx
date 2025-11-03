@@ -18,70 +18,64 @@ const ProgramsSection = () => {
   const accentLight = "#c8b8a8";
   const accentDark = "#3d1a00";
 
+  // 🔹 Updated Programs List (no date/time)
   const programs = [
     {
-      title: "Opening Ceremony",
-      date: "March 15, 2025",
-      time: "10:00 AM",
-      description: "Join us for the grand opening of our 15th anniversary celebration with distinguished guests and cultural performances.",
-      details: "The opening ceremony will feature speeches from prominent leaders, cultural performances by students, and a historical presentation about HISAN's journey over the past 15 years."
+      title: "Madh Rav",
+      description:
+        "An enchanting poetic gathering where eloquence and rhythm intertwine — celebrating classical and contemporary verses of devotion, wisdom, and culture.",
+      details:
+        "Students showcase their poetic flair through original compositions and classical recitations, reflecting the harmony of intellect and art that defines HISAN’s cultural spirit.",
     },
     {
-      title: "Academic Symposium",
-      date: "March 15, 2025",
-      time: "2:00 PM",
-      description: "A day of intellectual discourse and academic excellence showcasing student research and innovations.",
-      details: "The symposium will include paper presentations, panel discussions, and workshops led by esteemed faculty and industry professionals."
+      title: "Varsity Talent",
+      description:
+        "A vibrant stage for the young stars of Nahjurashad to express their multifaceted talents across music, arts, and performance.",
+      details:
+        "From soulful melodies to captivating performances, this platform highlights the creative excellence and enthusiasm of the HISAN community.",
     },
     {
-      title: "Cultural Gala",
-      date: "March 15, 2025",
-      time: "7:00 PM",
-      description: "An evening of music, dance, and cultural performances celebrating the rich heritage of Nahjurashad.",
-      details: "The gala will feature traditional and contemporary performances, student talent showcases, and special guest artists in a grand celebration of culture."
-    }
+      title: "Spelling Bee",
+      description:
+        "A thrilling contest of words, wit, and wisdom testing the linguistic prowess and composure of participants under pressure.",
+      details:
+        "Students compete through rounds of increasing difficulty, showcasing their command over vocabulary, memory, and quick thinking — a hallmark of academic discipline and confidence.",
+    },
+    {
+      title: "Little Muhaddith",
+      description:
+        "A unique platform nurturing the spirit of hadith learning among young scholars through memorization and articulation.",
+      details:
+        "Participants deliver narrations with precision and reverence, fostering a deep connection with the prophetic tradition and the values it upholds.",
+    },
   ];
 
-const programCount = programs.length;
-const segmentSize = 1 / programCount;
+  const programCount = programs.length;
+  const segmentSize = 1 / programCount;
 
-const programOpacities = programs.map((_, index) => {
-  const segmentStart = index * segmentSize;
-  const segmentEnd = (index + 1) * segmentSize;
-  const center = (segmentStart + segmentEnd) / 2;
+  const programOpacities = programs.map((_, index) => {
+    const segmentStart = index * segmentSize;
+    const segmentEnd = (index + 1) * segmentSize;
+    const center = (segmentStart + segmentEnd) / 2;
 
-  if (index === 0) {
-    // First program: start fully visible, fade out after its center
-    return useTransform(scrollYProgress, [0, center, segmentEnd], [1, 1, 0]);
-  } else if (index === programCount - 1) {
-    // Last program: fade in before center, stay visible
-    return useTransform(scrollYProgress, [segmentStart, center, 1], [0, 1, 1]);
-  } else {
-    // Middle programs
-    return useTransform(scrollYProgress, [segmentStart, center, segmentEnd], [0, 1, 0]);
-  }
-});
-  // Scale animation (unchanged)
+    if (index === 0) {
+      return useTransform(scrollYProgress, [0, center, segmentEnd], [1, 1, 0]);
+    } else if (index === programCount - 1) {
+      return useTransform(scrollYProgress, [segmentStart, center, 1], [0, 1, 1]);
+    } else {
+      return useTransform(scrollYProgress, [segmentStart, center, segmentEnd], [0, 1, 0]);
+    }
+  });
+
   const contentScale = useTransform(scrollYProgress, [0.8, 0.9, 1], [1, 1, 1]);
-
-  // Timeline progress for bottom bar
   const timelineProgress = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const showMoreButton = useTransform(scrollYProgress, [0.3, 0.33, 0.4], [0, 0.3, 1]);
 
-  // "More" button appears gradually after first program
-  const showMoreButton = useTransform(
-    scrollYProgress,
-    [0.3, 0.33, 0.4],
-    [0, 0.3, 1]
-  );
+  const handleMoreClick = () => navigate("/events");
 
-  const handleMoreClick = () => {
-    navigate('/events');
-  };
-
-  // Disable smooth scroll for this container
   useEffect(() => {
-    const style = document.createElement('style');
-    style.id = 'program-section-smooth-scroll';
+    const style = document.createElement("style");
+    style.id = "program-section-smooth-scroll";
     style.textContent = `
       #program-section-container {
         scroll-behavior: auto !important;
@@ -91,12 +85,9 @@ const programOpacities = programs.map((_, index) => {
       }
     `;
     document.head.appendChild(style);
-
     return () => {
-      const existingStyle = document.getElementById('program-section-smooth-scroll');
-      if (existingStyle) {
-        document.head.removeChild(existingStyle);
-      }
+      const existingStyle = document.getElementById("program-section-smooth-scroll");
+      if (existingStyle) document.head.removeChild(existingStyle);
     };
   }, []);
 
@@ -109,12 +100,14 @@ const programOpacities = programs.map((_, index) => {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* Decorative line - desktop only */}
-        <div className="hidden md:block absolute left-12 top-0 bottom-0 w-1" style={{ backgroundColor: accentLight }} />
+        <div
+          className="hidden md:block absolute left-12 top-0 bottom-0 w-1"
+          style={{ backgroundColor: accentLight }}
+        />
 
         {/* Main content */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-full max-w-4xl px-8 md:px-16">
-
             {programs.map((program, index) => (
               <motion.div
                 key={index}
@@ -131,37 +124,19 @@ const programOpacities = programs.map((_, index) => {
 
                 {/* Title */}
                 <h2
-                  className="text-6xl md:text-6xl font-medium mb-6 tracking-tight"
+                  className="text-5xl md:text-6xl font-medium mb-6 tracking-tight"
                   style={{ color: fgColor }}
                 >
                   {program.title}
                 </h2>
 
-                {/* Metadata */}
-                <div className="flex flex-wrap gap-6 mb-8">
-                  <div className="flex items-center gap-3">
-                    <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Date</span>
-                    <span style={{ color: fgColor }} className="text-lg">{program.date}</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span style={{ color: accentLight }} className="text-sm font-medium uppercase tracking-wider">Time</span>
-                    <span style={{ color: fgColor }} className="text-lg">{program.time}</span>
-                  </div>
-                </div>
-
                 {/* Description */}
-                <p
-                  className="text-xl mb-6 leading-relaxed"
-                  style={{ color: fgColor }}
-                >
+                <p className="text-xl mb-6 leading-relaxed" style={{ color: fgColor }}>
                   {program.description}
                 </p>
 
                 {/* Details */}
-                <p
-                  className="text-base leading-relaxed"
-                  style={{ color: accentDark }}
-                >
+                <p className="text-base leading-relaxed" style={{ color: accentDark }}>
                   {program.details}
                 </p>
               </motion.div>
@@ -203,7 +178,10 @@ const programOpacities = programs.map((_, index) => {
                 key={index}
                 className="w-5 h-5 rounded-full border-2 relative z-10"
                 style={{
-                  backgroundColor: index < Math.ceil(scrollYProgress.get() * programCount) ? fgColor : bgColor,
+                  backgroundColor:
+                    index < Math.ceil(scrollYProgress.get() * programCount)
+                      ? fgColor
+                      : bgColor,
                   borderColor: fgColor,
                 }}
               />
@@ -218,27 +196,29 @@ const programOpacities = programs.map((_, index) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl font-bold tracking-widest uppercase" style={{ color: fgColor }}>
-            Key Events
+          <h1
+            className="text-3xl font-bold tracking-widest uppercase"
+            style={{ color: fgColor }}
+          >
+            Key Programs
           </h1>
           <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
         </motion.div>
 
-        {/* Background logo */}
+        {/* Background logo and gradient */}
         <div
           className="absolute top-0 right-0 md:w-5/12 h-full opacity-5 md:opacity-20 pointer-events-none"
           style={{
             backgroundImage: `url('/logo.svg')`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center right',
-            backgroundSize: 'contain',
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center right",
+            backgroundSize: "contain",
           }}
         />
         <div
           className="h-full w-2/4 absolute top-0 right-0 bg-gradient-to-l from-brrown opacity-15 blur-2xl md:opacity-20 pointer-events-none"
-          style={{ 
-            // Note: corrected "bg-linear-to-l" → actual gradient handled via Tailwind or inline
-            background: 'linear-gradient(to left, #572a01, transparent)'
+          style={{
+            background: "linear-gradient(to left, #572a01, transparent)",
           }}
         />
       </div>
