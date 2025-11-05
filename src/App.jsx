@@ -10,7 +10,7 @@ import DownloadBrochure from "./components/DownloadBrochure";
 import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
-import RegistrationPage from "./pages/RegistrationPage"; // Import the new component
+import RegistrationPage from "./pages/RegistrationPage";
 
 // Scroll to top on every route change
 function ScrollToTop() {
@@ -23,46 +23,30 @@ function ScrollToTop() {
   return null;
 }
 
-// Notification Bar Component
-function NotificationBar() {
-  const [isVisible, setIsVisible] = React.useState(true);
+// Floating Announcement Box Component
+function FloatingAnnouncement() {
+  const { pathname } = useLocation(); // useLocation is now correctly inside Router context
+  const showRegisterLink = pathname !== '/register';
 
-  const handleDismiss = () => {
-    setIsVisible(false);
-  };
-
-  if (!isVisible) {
-    return null; // Don't render if dismissed
+  if (!showRegisterLink) {
+    return null; // Don't render if on /register
   }
 
   return (
-       <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
-              {[
-                { name: 'Home', path: '/' },
-                { name: 'About', action: () => scrollToSection('about') },
-                { name: 'Events', path: '/events' },
-                { name: 'Gallery', path: '/gallery' },
-                { name: 'Contact', path: '/contact' }
-              ].map((item) => (
-                 <a
-                  key={item.name}
-                  onClick={item.action ? item.action : () => handleNavigation(item.path)}
-                  className="text-[#572a01] hover:text-[#844C37] font-medium transition-colors duration-200 cursor-pointer relative group"
-                >
-                  {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#572a01] transition-all duration-300 group-hover:w-full"></span>
-                </a>
-              ))}
-              {/* Option B: Add Register as a separate button */}
-              <a
-                  onClick={() => handleNavigation('/register')}
-                  className="bg-brrown text-cream px-4 py-1 rounded-full font-medium transition-colors duration-200 cursor-pointer hover:bg-opacity-90"
-              >
-                  Register
-              </a>
-            </div>
-          </div>
+    <div className="fixed z-40 animate-bounce bottom-10 w-full max-w-xs sm:max-w-md md:w-1/3 lg:w-1/4 h-auto rounded-2xl bg-brrown/30 right-4 sm:right-6 md:right-10 flex flex-col items-center justify-center shadow-lg backdrop-blur-md p-4">
+      <div className="text-cream text-center mb-2">
+       <div className="flex  items-center gap-4">  
+         <p className="font-bold text-lg sm:text-xl">Spelling Bee</p>
+        <p className="text-sm">All Kerala Contest</p>
+       </div>
+      </div>
+      <Link
+        to="/register"
+        className="px-4 py-2 rounded bg-brrown text-cream font-semibold text-sm sm:text-base"
+      >
+        Register Now
+      </Link>
+    </div>
   );
 }
 
@@ -71,9 +55,9 @@ const App = () => {
   return (
     <Router>
       <div className="relative"> {/* Container for notification bar positioning */}
-        <NotificationBar /> {/* Add the notification bar here */}
-        <ScrollToTop />
-        <div className="pt-12"> {/* Add top padding to account for the fixed notification bar */}
+        <ScrollToTop /> {/* Add the scroll to top logic here */}
+        <FloatingAnnouncement /> {/* Add the announcement component here */}
+        <div className=""> {/* Add top padding to account for the fixed notification bar */}
           <Routes>
             <Route
               path="/"
@@ -90,11 +74,11 @@ const App = () => {
                 </>
               }
             />
-            <Route path="/events" element={<><Navbar/><Events/><Footer/></>} />
-            <Route path="/gallery" element={<><Navbar/><Gallery/><Footer/></>} />
-            <Route path="/contact" element={<><Navbar/><Contact/><Footer/></>} />
+            <Route path="/events" element={<><Navbar /><Events /><Footer /></>} />
+            <Route path="/gallery" element={<><Navbar /><Gallery /><Footer /></>} />
+            <Route path="/contact" element={<><Navbar /><Contact /><Footer /></>} />
             {/* Route for the new Registration Page */}
-            <Route path="/register" element={<><Navbar/><RegistrationPage/><Footer/></>} />
+            <Route path="/register" element={<><Navbar /><RegistrationPage /><Footer /></>} />
           </Routes>
         </div>
       </div>
