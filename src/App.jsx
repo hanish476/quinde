@@ -78,7 +78,7 @@ function App() {
     event.preventDefault();
 
     const form = event.target;
-    // CRITICAL: Ensure form element names match the data you expect in App Script
+   
     const nameValue = form.name.value;
     const desValue = form.des.value;
 
