@@ -78,11 +78,11 @@ function App() {
     event.preventDefault();
 
     const form = event.target;
-   
+    // CRITICAL: Ensure form element names match the data you expect in App Script
     const nameValue = form.name.value;
     const desValue = form.des.value;
 
-    const sheetUrl = process.env.SHEETURL;
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzR7RrWVTKXB-OfnmsjDxTbUd_gFVR7iX7jv57SgXFossx12XwDpwEOwDr0Naj9DPAn/exec'
 
     fetch(sheetUrl, {
       method: "POST",
