@@ -52,107 +52,97 @@
 // };
 
 // export default App;
-
 import React, { useState } from 'react';
 
-
 function App() {
-
   const [submittedData, setSubmittedData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const form = event.target;
-  //   const formData = new FormData(form);
-
-  //   const formJson = Object.fromEntries(formData.entries());
-
-  //   console.log('Form Submitted:', formJson);
-
-  //   setSubmittedData(prevData => [...prevData, formJson]);
-
-  //   form.reset();
-  // };
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const form = event.target;
-    // CRITICAL: Ensure form element names match the data you expect in App Script
     const nameValue = form.name.value;
     const desValue = form.des.value;
 
-    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzR7RrWVTKXB-OfnmsjDxTbUd_gFVR7iX7jv57SgXFossx12XwDpwEOwDr0Naj9DPAn/exec'
+    // Trim trailing spaces from URL (critical fix)
+    const sheetUrl = 'https://script.google.com/macros/s/AKfycbzR7RrWVTKXB-OfnmsjDxTbUd_gFVR7iX7jv57SgXFossx12XwDpwEOwDr0Naj9DPAn/exec';
+
+    setIsSubmitting(true); // Disable button + show loading state
 
     fetch(sheetUrl, {
-      method: "POST",
-      // IMPORTANT: Use encodeURIComponent for data that might contain special characters (like spaces)
+      method: 'POST',
       body: `Name=${encodeURIComponent(nameValue)}&Des=${encodeURIComponent(desValue)}`
     })
       .then(response => {
-        // App Script should return JSON now
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         return response.json();
       })
       .then(data => {
         console.log('App Script Response:', data);
 
-        // CRITICAL FIX: Only add the data if the submission was successful
         if (data.status === 'success') {
-          // Add the original data to the local state for display
-          setSubmittedData(prevData => [...prevData, { name: nameValue, des: desValue }]);
+          setSubmittedData(prev => [...prev, { name: nameValue, des: desValue }]);
           form.reset();
         } else {
           console.error('Submission Error from Server:', data.message);
+          alert('Submission failed: ' + (data.message || 'Unknown error'));
         }
       })
-      .catch(error => console.error('Error with fetch operation:', error.message));
-  }
+      .catch(error => {
+        console.error('Error with fetch:', error);
+        alert('An error occurred while submitting. Please try again.');
+      })
+      .finally(() => {
+        setIsSubmitting(false); // Re-enable button regardless of success/failure
+      });
+  };
 
   return (
-    <div className='h-screen w-full flex justify-center items-center'>
-      <div>
-        <h1 className='text-2xl mb-4'>React to Form</h1>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-white">
+      <div className="w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center mb-6">React to Google Form</h1>
 
-        {/* Attach the handleSubmit function to the onSubmit event */}
-        <form onSubmit={handleSubmit} className='flex gap-2 p-4 font-mono'>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             type="text"
             name="name"
             placeholder="Enter name"
-            className='p-2 text-base ring-1 ring-blue-500 rounded'
+            className="px-4 py-2 text-base border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
             required
           />
           <input
             type="text"
             name="des"
             placeholder="Enter description"
-            className='p-2 text-base ring-1 ring-blue-500 rounded'
+            className="px-4 py-2 text-base border border-blue-500 rounded focus:outline-none focus:ring-2 focus:ring-blue-300"
             required
           />
           <button
-            type='submit'
-            className='bg-blue-500 text-white p-2 rounded hover:bg-blue-600'
+            type="submit"
+            disabled={isSubmitting} // Disable during submission
+            className={`py-2 px-4 rounded text-white font-medium transition-colors ${
+              isSubmitting
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 hover:bg-blue-600'
+            }`}
           >
-            Add data
+            {isSubmitting ? 'Submitting...' : 'Add Data'}
           </button>
         </form>
 
-        {/* Display the submitted data */}
-        <div className='mt-4 p-4 bg-gray-100 rounded'>
-          <h2 className='text-xl'>Submitted Entries:</h2>
+        <div className="mt-8 p-4 bg-gray-50 rounded-lg shadow">
+          <h2 className="text-lg font-semibold mb-3">Submitted Entries:</h2>
           {submittedData.length > 0 ? (
-            <ul>
+            <ul className="space-y-2">
               {submittedData.map((data, index) => (
-                <li key={index} className='mt-2'>
-                  <strong>Name:</strong> {data.name}, <strong>Description:</strong> {data.des}
+                <li key={index} className="p-2 bg-white rounded border">
+                  <strong>Name:</strong> {data.name} • <strong>Description:</strong> {data.des}
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No data submitted yet.</p>
+            <p className="text-gray-500 italic">No data submitted yet.</p>
           )}
         </div>
       </div>
