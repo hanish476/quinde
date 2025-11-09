@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import ScrollShowcase from "./components/ScrollShowcase";
+import ScrollShowcase from "./components/scrollShowcase";
 import About from "./components/About";
 import ProgramDetail from "./components/Programs";
 import Footer from "./components/Footer";
