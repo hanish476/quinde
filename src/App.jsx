@@ -36,7 +36,7 @@ const App = () => {
               path="/"
               element={
                 <>
-                  <ScrollShowcase />
+    
                   <div id="about" className="relative z-[20] mt-[-5vh]">
                     <About />
                   </div>
