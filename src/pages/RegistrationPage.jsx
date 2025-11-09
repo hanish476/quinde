@@ -185,7 +185,7 @@ const RegistrationPage = () => {
     }, [modal.show, showWhatsAppModal]);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cream to-brrown/80 p-4 pt-16">
+        <div className="mt-10 sm:mt-0 min-h-screen flex items-center justify-center bg-gradient-to-b from-cream to-brrown/80 p-4 pt-16">
             {/* Toast (optional: keep for quick errors during typing, but success now uses modal) */}
             {toast.show && (
                 <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-20">
