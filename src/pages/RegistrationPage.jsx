@@ -15,7 +15,9 @@ const RegistrationPage = () => {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [toast, setToast] = useState({ show: false, message: "", type: "" });
+    const [modal, setModal] = useState({ show: false, type: "", data: null }); // 'success' | 'error'
 
+    // Auto-save draft
     useEffect(() => {
         const stored = localStorage.getItem("spellingBeeRegistrationDraft");
         if (stored) setFormData(JSON.parse(stored));
@@ -76,9 +78,7 @@ const RegistrationPage = () => {
             return;
         }
 
-        // IMPORTANT: Exposing the Google Apps Script URL here is a security vulnerability.
-        // Replace this URL with your backend proxy endpoint.
-        const sheetUrl = "https://script.google.com/macros/s/AKfycbzVvYzmDPyiJxQnPM0TBhBq6lDyj2CSnx8-SYr6Qi05eUJnC_SJQRBm10a93kettug/exec"; // Use your current script URL
+        const sheetUrl = import.meta.env.VITE_SHEETURL;
         setIsSubmitting(true);
 
         const formBody = new FormData();
@@ -92,11 +92,28 @@ const RegistrationPage = () => {
 
         try {
             const res = await fetch(sheetUrl, { method: "POST", body: formBody });
-            const data = await res.json(); 
+            const data = await res.json();
 
             if (data.status === "success") {
-       
-                setToast({ show: true, message: data.message || "Registration successful!", type: "success" });
+                // Show success modal
+                setModal({
+                    show: true,
+                    type: "success",
+                    data: {
+                        name: data.name || formData.name,
+                        fullAddress: data.fullAddress || [
+                            formData.address.houseName,
+                            formData.address.place,
+                            formData.address.city,
+                            formData.address.district,
+                            formData.address.pincode,
+                        ]
+                            .filter(Boolean)
+                            .join(", "),
+                        mobile: data.mobile || formData.mobile,
+                    },
+                });
+                localStorage.removeItem("spellingBeeRegistrationDraft");
                 setFormData({
                     name: "",
                     address: { houseName: "", place: "", city: "", district: "", pincode: "" },
@@ -106,21 +123,66 @@ const RegistrationPage = () => {
                     watsapp: "",
                     gmail: "",
                 });
-                localStorage.removeItem("spellingBeeRegistrationDraft");
             } else {
-                // Use the error message from the Apps Script response (data.message)
-                setToast({ show: true, message: data.message || "Submission failed!", type: "error" });
+                // Show error modal (more visible than toast)
+                setModal({
+                    show: true,
+                    type: "error",
+                    data: {
+                        message: data.message || "Submission failed. Please try again.",
+                    },
+                });
             }
         } catch (err) {
             console.error(err);
-            setToast({ show: true, message: "Network error!", type: "error" });
+            setModal({
+                show: true,
+                type: "error",
+                data: { message: "Network error! Please check your connection." },
+            });
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    const closeModal = () => {
+        setModal({ show: false, type: "", data: null });
+    };
+
+    // Prevent body scroll when modal is open
+    useEffect(() => {
+        if (modal.show) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [modal.show]);
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cream to-brrown/80 p-4 pt-16"> {/* Added pt-16 for fixed notification bar */}
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-cream to-brrown/80 p-4 pt-16">
+            {/* Toast (optional: keep for quick errors during typing, but success now uses modal) */}
+            {toast.show && (
+                <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-20">
+                    <div
+                        className={`px-4 py-3 rounded-md text-white ${toast.type === "success" ? "bg-green-500" : "bg-red-500"
+                            }`}
+                    >
+                        <div className="flex justify-between items-center">
+                            <span>{toast.message}</span>
+                            <button
+                                onClick={() => setToast({ ...toast, show: false })}
+                                className="ml-3 text-white font-bold text-lg leading-none"
+                            >
+                                &times;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -133,25 +195,8 @@ const RegistrationPage = () => {
                     Fill out your details carefully. Your progress is auto-saved.
                 </p>
 
-                {toast.show && (
-                    <div
-                        className={`mb-4 p-3 rounded-md text-white ${toast.type === "success" ? "bg-green-500" : "bg-red-500"
-                            }`}
-                    >
-                        <div className="flex justify-between items-center">
-                            <span>{toast.message}</span>
-                            <button
-                                onClick={() => setToast({ ...toast, show: false })}
-                                className="text-white font-bold text-lg leading-none"
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    </div>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Section 1 */}
+                    {/* Personal Info */}
                     <div>
                         <h2 className="font-semibold text-lg text-brrown mb-2">Personal Info</h2>
                         <div className="grid md:grid-cols-2 gap-4">
@@ -182,12 +227,12 @@ const RegistrationPage = () => {
                         </div>
                     </div>
 
-                    {/* Section 2 */}
+                    {/* Address */}
                     <div>
                         <h2 className="font-semibold text-lg text-brrown mb-2">Address</h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {["houseName", "place", "city", "district", "pincode"].map((key, i) => (
-                                <div key={i}>
+                            {["houseName", "place", "city", "district", "pincode"].map((key) => (
+                                <div key={key}>
                                     <label className="block text-sm text-brrown mb-1 capitalize">
                                         {key.replace(/([A-Z])/g, " $1")} *
                                     </label>
@@ -206,7 +251,7 @@ const RegistrationPage = () => {
                         </div>
                     </div>
 
-                    {/* Section 3 */}
+                    {/* Institution */}
                     <div>
                         <h2 className="font-semibold text-lg text-brrown mb-2">Institution</h2>
                         <div className="space-y-3">
@@ -230,7 +275,7 @@ const RegistrationPage = () => {
                         </div>
                     </div>
 
-                    {/* Section 4 */}
+                    {/* Contact */}
                     <div>
                         <h2 className="font-semibold text-lg text-brrown mb-2">Contact</h2>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -238,14 +283,14 @@ const RegistrationPage = () => {
                                 { name: "mobile", label: "Mobile Number *" },
                                 { name: "watsapp", label: "WhatsApp (Optional)" },
                                 { name: "gmail", label: "Email (Optional)" },
-                            ].map((f, i) => (
-                                <div key={i}>
+                            ].map((f) => (
+                                <div key={f.name}>
                                     <label className="block text-sm text-brrown mb-1">{f.label}</label>
                                     <input
                                         name={f.name}
                                         value={formData[f.name]}
                                         onChange={handleChange}
-                                        placeholder={f.label}
+                                        placeholder=""
                                         className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${errors[f.name] ? "border-red-500 focus:ring-red-300 bg-cream" : "border-brrown focus:ring-brrown bg-cream text-brrown"
                                             }`}
                                     />
@@ -261,16 +306,149 @@ const RegistrationPage = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`px-8 py-3 rounded-full font-semibold text-cream transition-all ${isSubmitting
-                                    ? "bg-gray-400 cursor-not-allowed"
-                                    : "bg-brrown hover:bg-brrown/90"
+                            className={`px-8 py-3 rounded-full font-semibold text-cream transition-all flex items-center justify-center gap-2 relative
+        ${isSubmitting
+                                    ? "bg-brrown/70 cursor-not-allowed"
+                                    : "bg-brrown hover:bg-brrown/90 active:scale-[0.98]"
                                 }`}
                         >
-                            {isSubmitting ? "Submitting..." : "Submit Registration"}
+                            {isSubmitting ? (
+                                <>
+                                    <span className="opacity-75">Submitting</span>
+                                    {/* Inline SVG Spinner (tailwind-friendly) */}
+                                    <svg
+                                        className="w-5 h-5 text-cream animate-spin"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        ></circle>
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                        ></path>
+                                    </svg>
+                                </>
+                            ) : (
+                                "Submit Registration"
+                            )}
                         </button>
                     </div>
                 </form>
             </motion.div>
+
+            {/* Modal Overlay */}
+            {modal.show && (
+                <div
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    onClick={closeModal}
+                >
+                    <div
+                        className="bg-cream w-full max-w-md rounded-2xl shadow-xl border border-brrown p-6 relative"
+                        onClick={(e) => e.stopPropagation()} // prevent closing on inner click
+                    >
+                        <button
+                            onClick={closeModal}
+                            className="absolute top-4 right-4 text-brrown hover:text-brrown/80 font-bold text-xl"
+                        >
+                            &times;
+                        </button>
+
+                        {modal.type === "success" && (
+                            <>
+                                <div className="text-center mb-6">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+                                        <svg
+                                            className="w-8 h-8 text-green-600"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M5 13l4 4L19 7"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-brrown mb-2">
+                                        Registration Successful! 🎉
+                                    </h2>
+                                    <p className="text-brrown/80">
+                                        Thank you for registering for the Spelling Bee competition.
+                                    </p>
+                                </div>
+
+                                <div className="bg-brrown/5 rounded-lg p-4 mb-6 space-y-2 text-brrown">
+                                    <div>
+                                        <span className="font-semibold">Name:</span>{" "}
+                                        <span>{modal.data.name}</span>
+                                    </div>
+                                    <div>
+                                        <span className="font-semibold">Address:</span>{" "}
+                                        <span>{modal.data.fullAddress}</span>
+                                    </div>
+                                    <div>
+                                        <span className="font-semibold">Mobile:</span>{" "}
+                                        <span>{modal.data.mobile}</span>
+                                    </div>
+                                </div>
+
+                                <div className="text-center">
+                                    <button
+                                        onClick={closeModal}
+                                        className="px-6 py-2 bg-brrown text-cream rounded-full font-semibold hover:bg-brrown/90"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        {modal.type === "error" && (
+                            <>
+                                <div className="text-center mb-6">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+                                        <svg
+                                            className="w-8 h-8 text-red-600"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-brrown mb-2">Oops!</h2>
+                                    <p className="text-red-600">{modal.data.message}</p>
+                                </div>
+
+                                <div className="text-center">
+                                    <button
+                                        onClick={closeModal}
+                                        className="px-6 py-2 bg-brrown text-cream rounded-full font-semibold hover:bg-brrown/90"
+                                    >
+                                        Try Again
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
