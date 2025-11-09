@@ -11,9 +11,9 @@ import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import RegistrationPage from "./pages/RegistrationPage";
-import StickyCTA from "./components/StickyCTA"; // ✅ NEW IMPORT
+import StickyCTA from "./components/StickyCTA"; 
 
-function ScrollToTop() { /* ... unchanged ... */ }
+function ScrollToTop() { return null; }
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
       <div className="relative">
         <ScrollToTop />
         <Navbar />
-        <StickyCTA /> {/* ✅ NEW: place right after Navbar */}
+        <StickyCTA /> 
         
         <div className="">
           <Routes>
