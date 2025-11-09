@@ -1,14 +1,6 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* 2. Custom Font: Avigea (fix format & dedupe) */
-@font-face {
-  font-family: "Avigea";
-  src: url("../src/assets/fonts/Avigea.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+
 
 /* 3. Tailwind v4 @theme — includes colors, fonts, AND keyframes ✅ */
 @theme {
@@ -18,7 +10,7 @@
 
   /* Fonts */
   --font-sans: "Montserrat", sans-serif;
-  --font-avigea: "Avigea", "Montserrat", sans-serif;
+  --font-avigea:  "Montserrat", sans-serif;
 
   /* Keyframes ✅ Registered globally for Tailwind */
   --animate-shimmer: shimmer;

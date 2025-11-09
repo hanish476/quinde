@@ -187,7 +187,7 @@ const ScrollShowcase = () => {
                     </span>
 
                     {/* Main Headline */}
-                    <h3 className="font-avigea text-2xl sm:text-3xl font-normal text-cream mb-1 tracking-tight">
+                    <h3 className="font-mono text-2xl sm:text-3xl font-normal text-cream mb-1 tracking-tight">
                       Spelling Bee
                     </h3>
 
