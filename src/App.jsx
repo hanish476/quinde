@@ -1,5 +1,5 @@
-// src/App.jsx (updated)
-import React from "react";
+// src/App.jsx
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ScrollShowcase from "./components/ScrollShowcase";
@@ -11,9 +11,16 @@ import Events from "./pages/Events";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import RegistrationPage from "./pages/RegistrationPage";
-import StickyCTA from "./components/StickyCTA"; 
+import StickyCTA from "./components/StickyCTA"; // ✅ NEW IMPORT
 
-function ScrollToTop() { return null; }
+// ✅ Proper scroll-to-top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 const App = () => {
   return (
@@ -21,9 +28,9 @@ const App = () => {
       <div className="relative">
         <ScrollToTop />
         <Navbar />
-        <StickyCTA /> 
-        
-        <div className="">
+        <StickyCTA />
+
+        <div>
           <Routes>
             <Route
               path="/"
