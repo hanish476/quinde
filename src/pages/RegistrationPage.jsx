@@ -80,6 +80,7 @@ const RegistrationPage = () => {
         }
 
         const sheetUrl = import.meta.env.VITE_SHEETURL;
+        const watsurl = import.meta.env.VITE_WHATSAPP_LINK;
         setIsSubmitting(true);
 
         setTimeout(() => {
@@ -517,7 +518,7 @@ const RegistrationPage = () => {
                         <div className="flex flex-col gap-3">
                             {/* Replace YOUR_WHATSAPP_LINK with your actual group link */}
                             <a
-                                href="https://chat.whatsapp.com/YOUR_WHATSAPP_INVITE_LINK"
+                                href="https://chat.whatsapp.com/LBUU5AntX6r8RGHB9DuqSG?mode=wwt"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="px-6 py-3 bg-green-600 text-cream rounded-full font-semibold hover:bg-green-700 text-center transition-colors"
