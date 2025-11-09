@@ -134,7 +134,7 @@ const ScrollShowcase = () => {
           <motion.img
             src="/qm.svg"
             alt="Quindecennial"
-            className=" sm:hidden h-[31rem] sm:h-[25rem] mx-auto mt-30 sm:mb-4"
+            className=" sm:hidden h-[25rem]  mx-auto mt-20 sm:mb-4"
             style={{
               filter: svgFilter,
               opacity: quindOpacity,
@@ -153,8 +153,67 @@ const ScrollShowcase = () => {
               scale: quindScale,
               color: textColor,
             }}
-          />
 
+            
+          />
+{/* ✅ All Kerala Spelling Bee CTA — Shimmering, scroll-synced */}
+<motion.div
+  style={{
+    opacity: quindOpacity, // fades out as logo fades
+    scale: quindScale,
+    y: useTransform(scrollYProgress, [0.2, 0.35], [20, 0]), // gentle upward lift
+  }}
+  className="sm:-mt-15 "
+>
+  {/* Shimmer Wrapper */}
+  <div className="relative overflow-hidden rounded-xl w-full max-w-xs sm:max-w-md mx-auto">
+    {/* Shimmer Layer */}
+    <div
+      className="absolute inset-0 bg-linear-10 from-transparent via-cream/20 to-transparent rounded-xl"
+      style={{
+        transform: 'translateX(-100%)',
+        animation: 'shimmer 2s infinite',
+      }}
+    />
+    {/* CTA Button */}
+   <a href="/register">
+     <motion.button
+      layout
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => {
+        // Smooth scroll to top first (optional), then navigate
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => window.location.href = '/register', 300);
+      }}
+      className="relative w-full px-6 py-4 bg-brrown text-cream font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 group"
+    >
+      <span className="text-lg font-avigea">🐝 Join Spelling Bee!</span>
+      <svg
+        className="w-5 h-5 text-yellow-200 group-hover:translate-x-1 transition-transform"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        />
+      </svg>
+    </motion.button>
+   </a>
+  </div>
+
+  {/* Deadline hint */}
+  <motion.p
+    style={{ opacity: quindOpacity }}
+    className="mt-2 text-base font-medium text-center font-mono text-brrown"
+  >
+    📅 Register by <strong>Nov 16, 2025</strong>
+  </motion.p>
+</motion.div>
         </div>
         {/* <p className="text-3xl md:text-4xl font-medium">Quindecennial Celebration</p> */}
       </motion.div>

@@ -81,6 +81,17 @@ const RegistrationPage = () => {
         const sheetUrl = import.meta.env.VITE_SHEETURL;
         setIsSubmitting(true);
 
+        setTimeout(() => {
+            if (!modal.show) {
+                // Only pulse if no modal appeared (i.e., still loading)
+                const btn = document.activeElement;
+                if (btn?.tagName === "BUTTON") btn.classList.add("scale-105");
+                setTimeout(() => {
+                    if (btn) btn.classList.remove("scale-105");
+                }, 200);
+            }
+        }, 50);
+        
         const formBody = new FormData();
         Object.entries(formData).forEach(([key, val]) => {
             if (typeof val === "object") {

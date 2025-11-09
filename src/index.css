@@ -1,24 +1,36 @@
+/* 1. Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* 2. Custom Font: Avigea (fix format & dedupe) */
 @font-face {
-  font-family: 'Montserrat';
-  font-family: Avigea;
-  src: url("../src/assets/fonts/Avigea.otf") format("otf");
+  font-family: "Avigea";
+  src: url("../src/assets/fonts/Avigea.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
-@import "tailwindcss";
-
+/* 3. Tailwind v4 @theme — includes colors, fonts, AND keyframes ✅ */
 @theme {
-  --default-font-family : "Montserrat", sans-serif;
-  --default-font-weight: 900;
+  /* Colors */
   --color-brrown: #572a01;
   --color-cream: #eeeee4;
-   --font-avigea: "Avigea", ;
+
+  /* Fonts */
+  --font-sans: "Montserrat", sans-serif;
+  --font-avigea: "Avigea", "Montserrat", sans-serif;
+
+  /* Keyframes ✅ Registered globally for Tailwind */
+  --animate-shimmer: shimmer;
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* Optional: base styles */
+body {
+  @apply bg-cream text-brrown font-sans;
 }
-
-
