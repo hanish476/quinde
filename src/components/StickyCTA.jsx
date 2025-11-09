@@ -35,7 +35,7 @@ const StickyCTA = () => {
         className="fixed top-18 z-40 w-full px-4 sm:px-6"
         style={{ pointerEvents: "none" }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto rounded-xl shadow-cream shadow-xl">
           {/* Shimmer Wrapper */}
           <div className="relative overflow-hidden rounded-xl">
             {/* Shimmer layer (behind content) */}
@@ -50,7 +50,7 @@ const StickyCTA = () => {
             {/* Content */}
             <motion.div
               layout
-              className="relative bg-[#7d3d05ef] backdrop-blur-sm shadow-lg p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3"
+              className="relative bg-brrown   backdrop-blur-sm  p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3"
               style={{ pointerEvents: "auto" }}
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-3">
@@ -78,7 +78,7 @@ const StickyCTA = () => {
 
               <Link
                 to="/register"
-                className="hidden sm:flex px-5 py-2.5 bg-brrown text-cream font-semibold rounded-lg hover:bg-brrown/90 transition-all shadow-md hover:shadow-lg active:scale-[0.98] whitespace-nowrap"
+                className="hidden sm:flex px-5 py-2.5 bg-cream text-brown font-semibold rounded-lg hover:bg-cream/40  hover:text-cream transition-all shadow-md hover:shadow-lg active:scale-[0.98] whitespace-nowrap"
               >
                 Register Now
               </Link>

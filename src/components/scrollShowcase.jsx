@@ -1,6 +1,7 @@
 // components/ScrollShowcase.jsx
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const ScrollShowcase = () => {
   const containerRef = useRef(null);
@@ -117,18 +118,7 @@ const ScrollShowcase = () => {
         }}
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 pointer-events-none"
       >
-        {/* <div className="w-[100rem] h-70 rounded-b-2xl sm:flex sm:justify-between">
-          <div className="hidden sm:block">
-            <img src="/logo.svg" alt="" className="h-[20rem] sm:h-[60rem] opacity-20 rotate-90 blur-md" />
-          </div>
-          <div className="hidden sm:block">
-            <img src="/logo.svg" alt="" className="hidden sm:block sm:h-[60rem] opacity-20 blur-md" />
-          </div>
-          <div className="sm:hidden ">
-            <img src="/logo.svg" alt="" className="block sm:hidden mx-auto  h-[70rem] opacity-20 " />
-          </div>
 
-        </div> */}
 
         <div className="w-[100rem]">
           <motion.img
@@ -154,66 +144,105 @@ const ScrollShowcase = () => {
               color: textColor,
             }}
 
-            
-          />
-{/* ✅ All Kerala Spelling Bee CTA — Shimmering, scroll-synced */}
-<motion.div
-  style={{
-    opacity: quindOpacity, // fades out as logo fades
-    scale: quindScale,
-    y: useTransform(scrollYProgress, [0.2, 0.35], [20, 0]), // gentle upward lift
-  }}
-  className="sm:-mt-15 "
->
-  {/* Shimmer Wrapper */}
-  <div className="relative overflow-hidden rounded-xl w-full max-w-xs sm:max-w-md mx-auto">
-    {/* Shimmer Layer */}
-    <div
-      className="absolute inset-0 bg-linear-10 from-transparent via-cream/20 to-transparent rounded-xl"
-      style={{
-        transform: 'translateX(-100%)',
-        animation: 'shimmer 2s infinite',
-      }}
-    />
-    {/* CTA Button */}
-   <a href="/register">
-     <motion.button
-      layout
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={() => {
-        // Smooth scroll to top first (optional), then navigate
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => window.location.href = '/register', 300);
-      }}
-      className="relative w-full px-6 py-4 bg-brrown text-cream font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 group"
-    >
-      <span className="text-lg font-avigea">🐝 Join Spelling Bee!</span>
-      <svg
-        className="w-5 h-5 text-yellow-200 group-hover:translate-x-1 transition-transform"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-        />
-      </svg>
-    </motion.button>
-   </a>
-  </div>
 
-  {/* Deadline hint */}
-  <motion.p
-    style={{ opacity: quindOpacity }}
-    className="mt-2 text-base font-medium text-center font-mono text-brrown"
-  >
-    📅 Register by <strong>Nov 16, 2025</strong>
-  </motion.p>
-</motion.div>
+          />
+          {/* ✅ Premium All Kerala Spelling Bee CTA — Scroll-Synced & Shimmering */}
+          <motion.div
+            style={{
+              opacity: quindOpacity,
+              scale: quindScale,
+              y: useTransform(scrollYProgress, [0.2, 0.35], [20, 0]),
+            }}
+            className="mt-8 sm:-mt-15"
+          >
+            {/* Decorative top accent */}
+            <div className="relative flex justify-center mb-4">
+              <div className="w-16 h-0.5 bg-brrown/30"></div>
+              <span className="mx-2 text-cream/60 font-mono text-xs">🐝</span>
+              <div className="w-16 h-0.5 bg-brrown/30"></div>
+            </div>
+
+            {/* Shimmer CTA Card */}
+            <div className="relative max-w-xs sm:max-w-md mx-auto">
+              {/* Shimmer Layer (Tailwind v4 — safe & fast) */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/15 to-transparent rounded-2xl -z-10
+                    translate-x-[-100%] animate-[shimmer_2000ms_infinite]"></div>
+
+              {/* Main CTA Card */}
+              <a href="/register" className="block sticky z-50 ">
+                <motion.div
+                  layout
+                  whileHover={{ y: -4, boxShadow: "0 20px 25px -5px rgba(87, 42, 1, 0.15)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative bg-brrown rounded-2xl overflow-hidden border border-brrown/20
+                   shadow-xl hover:shadow-2xl transition-all duration-300"
+                >
+                  {/* Subtle diagonal accent stripe (optional but elegant) */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent"></div>
+
+                  <div className="p-5 sm:p-6 text-center">
+                    {/* Top Tag */}
+                    <span className="inline-block px-3 py-1 mb-3 bg-cream/20 text-cream text-xs font-bold rounded-full tracking-wide uppercase">
+                      🏆 All Kerala
+                    </span>
+
+                    {/* Main Headline */}
+                    <h3 className="font-avigea text-2xl sm:text-3xl font-normal text-cream mb-1 tracking-tight">
+                      Spelling Bee
+                    </h3>
+
+                    {/* Subtitle */}
+                    <p className="text-cream/80 text-sm font-mono mb-4">
+                      Celebrating Excellence in Language
+                    </p>
+
+                    {/* Button-like CTA */}
+                 <Link 
+                 to="/register">
+                     <div className="flex items-center justify-center gap-2 mt-2 group">
+                      <span className="font-mono font-semibold text-cream text-lg group-hover:text-yellow-100 transition-colors">
+                        Register Now
+                      </span>
+                      <svg
+                        className="w-5 h-5 text-yellow-200 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
+                    </div>
+                 </Link>
+                  </div>
+
+                  {/* Subtle inner glow on hover (pseudo-element alternative) */}
+                  <div className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 hover:opacity-100
+                        bg-gradient-to-t from-brrown/0 via-brrown/0 to-cream/5 transition-opacity duration-300"></div>
+                </motion.div>
+              </a>
+
+              {/* Deadline badge */}
+              <motion.div
+                style={{ opacity: quindOpacity }}
+                className="mt-4 flex items-center justify-center gap-2"
+              >
+                <div className="flex items-center gap-1.5 bg-cream/10 text-cream px-3 py-1.5 rounded-full border border-cream/10">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                  </svg>
+                  <span className="text-xs font-mono font-medium">
+                    Ends Nov 16, 2025
+                  </span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
         {/* <p className="text-3xl md:text-4xl font-medium">Quindecennial Celebration</p> */}
       </motion.div>
@@ -276,7 +305,7 @@ const ScrollShowcase = () => {
             <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
             <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
             <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
-            
+
           </div>
           <div>
             <h1 className=" opacity-10 uppercase text-center text-cream text-2xl lg:text-7xl my-auto font-bold">  Anniversary <br /> Celebration  </h1>
@@ -302,7 +331,7 @@ const ScrollShowcase = () => {
           </div>
         </div>
 
-     
+
       </div>
       {/* Spacer to ensure the section ends before About section starts */}
       <div className="h-[40vh]"></div>
