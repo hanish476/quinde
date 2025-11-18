@@ -602,7 +602,7 @@ const RegistrationPage = () => {
                         Thank you for your interest! Registration for the Spelling Bee competition has ended.
                     </p>
                     <p className="text-brrown/70 text-sm">
-                        Registration deadline was November 16, 2025
+                        Registration deadline was November 18, 2025
                     </p>
                 </div>
 
