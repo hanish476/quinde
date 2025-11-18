@@ -105,7 +105,7 @@ const ScrollShowcase = () => {
   return (
     <Link to="/register" >
       <motion.div
-      
+
         ref={containerRef}
         style={{ backgroundColor: bgColor }}
         className="h-[270vh] w-full flex flex-col justify-center items-center overflow-hidden relative"
@@ -149,12 +149,10 @@ const ScrollShowcase = () => {
             />
             {/* ✅ Premium All Kerala Spelling Bee CTA — Scroll-Synced & Shimmering */}
             <motion.div
-
               style={{
                 opacity: quindOpacity,
                 scale: quindScale,
                 y: useTransform(scrollYProgress, [0.2, 0.35], [20, 0]),
-
               }}
               className="mt-8 sm:-mt-15 relative z-50"
             >
@@ -169,60 +167,49 @@ const ScrollShowcase = () => {
               <div className="relative max-w-xs sm:max-w-md mx-auto">
                 {/* Shimmer Layer (Tailwind v4 — safe & fast) */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/15 to-transparent rounded-2xl -z-10
-                    translate-x-[-100%] animate-[shimmer_2000ms_infinite]"></div>
+        translate-x-[-100%] animate-[shimmer_2000ms_infinite]"></div>
 
                 {/* Main CTA Card */}
-                {/* ✅ Replace the whole <a> wrapper + inner <Link> with this: */}
-                <Link
-                  to="/register"
-                  className="block"
+                <div className="relative bg-brrown rounded-2xl overflow-hidden border border-brrown
+      shadow-xl cursor-not-allowed opacity-70">
 
-                >
-                  <motion.div
-                    layout
-                    whileHover={{ y: -4, boxShadow: "0 20px 25px -5px rgba(87, 42, 1, 0.15)" }}
-                    whileTap={{ scale: 0.98 }}
-                    className="relative bg-brrown rounded-2xl overflow-hidden border border-brrown/20
-      shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer" >
+                  <div className="p-5 sm:p-6 text-center">
+                    <span className="inline-block px-3 py-1 mb-3 bg-cream/20 text-white text-xs font-bold rounded-full tracking-wide uppercase">
+                      🏆 All Kerala
+                    </span>
+                    <h3 className="font-mono text-2xl sm:text-3xl font-normal text-cream mb-1 tracking-tight">
+                      Spelling Bee
+                    </h3>
+                    <p className="text-cream/80 text-sm font-mono mb-4">
+                      Celebrating Excellence in Language
+                    </p>
 
-                    <div className="p-5 sm:p-6 text-center">
-                      <span className="inline-block px-3 py-1 mb-3 bg-cream/20 text-cream text-xs font-bold rounded-full tracking-wide uppercase">
-                        🏆 All Kerala
+                    {/* Updated Registration Closed Content */}
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                      <span className="font-mono font-semibold text-cream/60 text-lg">
+                        Registration Closed
                       </span>
-                      <h3 className="font-mono text-2xl sm:text-3xl font-normal text-cream mb-1 tracking-tight">
-                        Spelling Bee
-                      </h3>
-                      <p className="text-cream/80 text-sm font-mono mb-4">
-                        Celebrating Excellence in Language
-                      </p>
-
-                      {/* ✅ Directly use the Link's children — no nested Link or <a> */}
-                      <div className="flex items-center justify-center gap-2 mt-2 group">
-                        <span className="font-mono font-semibold text-cream text-lg group-hover:text-yellow-100 transition-colors">
-                          Register Now
-                        </span>
-                        <svg
-                          className="w-5 h-5 text-yellow-200 group-hover:translate-x-1 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </div>
+                      <svg
+                        className="w-5 h-5 text-cream/40"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
                     </div>
+                  </div>
 
-                    {/* Inner glow effect */}
-                    <div className="absolute inset-0 rounded-2xl  opacity-0 hover:opacity-100  bg-gradient-to-t from-brrown/0 via-brrown/0 to-cream/5 transition-opacity duration-300"></div>
-                  </motion.div>
-                </Link>
+                  {/* Inner glow effect - removed hover effect since it's disabled */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 bg-gradient-to-t from-brrown/0 via-brrown to-cream"></div>
+                </div>
 
-                {/* Deadline badge */}
+                {/* Updated Deadline badge */}
                 <motion.div
                   style={{ opacity: quindOpacity }}
                   className="mt-4 flex items-center justify-center gap-2"
@@ -233,7 +220,7 @@ const ScrollShowcase = () => {
                       <polyline points="12,6 12,12 16,14" />
                     </svg>
                     <span className="text-xs font-mono font-medium">
-                      Ends Nov 16, 2025
+                      Ended Nov 16, 2025
                     </span>
                   </div>
                 </motion.div>
