@@ -12,6 +12,7 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import RegistrationPage from "./pages/RegistrationPage";
 import StickyCTA from "./components/StickyCTA"; // ✅ NEW IMPORT
+import SelectedCandidatesPage from "./pages/SelectedCandidatesPage";
 
 // ✅ Proper scroll-to-top on route change
 function ScrollToTop() {
@@ -28,7 +29,7 @@ const App = () => {
       <div className="relative">
         <ScrollToTop />
         <Navbar />
-        <StickyCTA />
+        {/* <StickyCTA /> */}
 
         <div>
           <Routes>
@@ -54,6 +55,7 @@ const App = () => {
         </div>
       </div>
     </Router>
+
   );
 };
 
