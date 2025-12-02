@@ -1,6 +1,33 @@
 // components/Gallery.jsx
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+const LazyImage = ({ src, alt, ...props }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  return (
+    <div className="relative w-full h-full">
+      {!loaded && (
+        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={() => setLoaded(true)}
+        onError={() => setError(true)}
+        loading="lazy"
+        {...props}
+      />
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+          <span className="text-gray-500">Image not found</span>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Gallery = () => {
   const containerRef = useRef(null);
@@ -28,13 +55,18 @@ const Gallery = () => {
     '/gallery/9.jpg',
     '/gallery/10.jpg',
     '/gallery/11.jpg',
+
   ];
 
   const [selectedImage, setSelectedImage] = useState(null);
 
   // Animation for gallery items
-  const galleryOpacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 1, 1]);
+  const galleryOpacity = useTransform(scrollYProgress, [0, 0.7, 1], [0, 1, 1]);
   const galleryScale = useTransform(scrollYProgress, [0, 0.3, 1], [0.8, 1, 1]);
+
+  const handleImageClick = useCallback((index) => {
+    setSelectedImage({ id: index, src: images[index] });
+  }, [images]);
 
   return (
     <motion.div
@@ -49,6 +81,7 @@ const Gallery = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
         >
           <h1 className="text-4xl md:text-5xl font-bold text-[#572a01] tracking-widest uppercase">
             Gallery
@@ -61,29 +94,24 @@ const Gallery = () => {
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           style={{
             opacity: 100,
-            scale: galleryScale
+        
           }}
         >
           {images.map((img, index) => (
-        // Gallery Item
-        <>
             <motion.div
               key={index}
               className="overflow-hidden rounded-lg shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-              whileHover={{ y: -10 }}
-              onClick={() => setSelectedImage({ id: index, src: img })}
+           
+              onClick={() => handleImageClick(index)}
             >
               <div className="aspect-[3/4] w-full overflow-hidden"> {/* A4 aspect ratio (3:4) */}
-                <motion.img
+                <LazyImage
                   src={img}
                   alt={`Gallery item ${index + 1}`}
-                  className="w-full h-full object-cover object-center transition-opacity duration-300"
-                  whileHover={{ scale: 1.1 }}
+                  className="transition-opacity duration-300"
                 />
               </div>
             </motion.div>
-            
-        </>
           ))}
         </motion.div>
 
@@ -110,7 +138,7 @@ const Gallery = () => {
                 </svg>
               </button>
               <div className="aspect-[3/4] w-full max-h-[80vh] overflow-hidden rounded-lg">
-                <img
+                <LazyImage
                   src={selectedImage.src}
                   alt={`Gallery item ${selectedImage.id + 1}`}
                   className="w-full h-full object-contain"
