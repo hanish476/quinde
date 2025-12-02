@@ -28,6 +28,62 @@ const data = {
         "total": 55
       }
     },
+      "10237": {
+      "name": "AMAL HAYYAN",
+       "college": "Sabeelul hidaya islamic college, Parappur",
+      "scores": {
+        "s1": 20,
+        "s2": 6,
+        "s3": 6,
+        "s4": 4,
+        "s5": 28,
+        "s6": 5,
+        "s7": 2,
+        "total": 71
+      }
+    },
+      "10238": {
+      "name": "VARIS",
+       "college": "Sabeelul hidaya islamic college, Parappur",
+      "scores": {
+        "s1": 18,
+        "s2":4.5,
+        "s3": 10,
+        "s4": 12,
+        "s5": 28,
+        "s6": 6,
+        "s7": 1,
+        "total": 79.5
+      }
+    },
+          "10239": {
+      "name": "RAYYAN",
+       "college": "Sabeelul hidaya islamic college, Parappur",
+      "scores": {
+        "s1":  30,
+        "s2": 6,
+        "s3": 10,
+        "s4": 6,
+        "s5": 28,
+        "s6": 3,
+        "s7": 3,
+        "total": 86
+      }
+    },
+         "10240": {
+      "name": "HADI",
+       "college": "Sabeelul hidaya islamic college, Parappur",
+      "scores": {
+        "s1":  16,
+        "s2": 1.5,
+        "s3": 4,
+        "s4": 2,
+        "s5": 18,
+        "s6": 5,
+        "s7": 1,
+        "total": 47.5
+      }
+    },
     "10003": {
       "name": "MUHAMMED SHAMEEM EK",
       "college": "Al Hidaya Islamic Academy, Kalamassery",
