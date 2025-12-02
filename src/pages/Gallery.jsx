@@ -1,20 +1,27 @@
 // components/Gallery.jsx
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-const LazyImage = ({ src, alt, ...props }) => {
+const LazyImage = ({ src, alt, delay = 0, ...props }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Trigger image load after delay
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
 
   return (
     <div className="relative w-full h-full">
       {!loaded && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 animate-pulse" />
       )}
       <img
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
         onLoad={() => setLoaded(true)}
         onError={() => setError(true)}
         loading="lazy"
@@ -55,7 +62,6 @@ const Gallery = () => {
     '/gallery/9.jpg',
     '/gallery/10.jpg',
     '/gallery/11.jpg',
-
   ];
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -93,15 +99,18 @@ const Gallery = () => {
         <motion.div 
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           style={{
-            opacity: 100,
-        
+            opacity: galleryOpacity,
+            scale: galleryScale
           }}
         >
           {images.map((img, index) => (
             <motion.div
               key={index}
               className="overflow-hidden rounded-lg shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-           
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "100px" }}
               onClick={() => handleImageClick(index)}
             >
               <div className="aspect-[3/4] w-full overflow-hidden"> {/* A4 aspect ratio (3:4) */}
@@ -109,6 +118,7 @@ const Gallery = () => {
                   src={img}
                   alt={`Gallery item ${index + 1}`}
                   className="transition-opacity duration-300"
+                  delay={index * 50} // Sequential delay for each image
                 />
               </div>
             </motion.div>
