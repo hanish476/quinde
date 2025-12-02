@@ -145,7 +145,7 @@ const ProgramsSection = () => {
             {/* More Button */}
             <motion.div
               style={{ opacity: showMoreButton }}
-              className="absolute bottom-20 right-8 md:right-24 z-30"
+              className="absolute bottom-20 left-20 md:right-24 z-30"
             >
               <motion.button
                 onClick={handleMoreClick}

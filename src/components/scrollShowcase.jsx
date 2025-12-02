@@ -103,7 +103,7 @@ const ScrollShowcase = () => {
   };
 
   return (
-    <Link to="/register" >
+
       <motion.div
 
         ref={containerRef}
@@ -229,7 +229,7 @@ const ScrollShowcase = () => {
         {/* Spacer to ensure the section ends before About section starts */}
         <div className="h-[40vh]"></div>
       </motion.div>
-    </Link>
+
   );
 };
 
