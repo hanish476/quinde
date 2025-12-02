@@ -350,6 +350,20 @@ const data = {
         "total": 26.5
       }
     },
+     "10242": {
+      "name": "ANAS KP",
+      "college": "Jabalunnoor Islamic Complex, Perambra",
+      "scores": {
+        "s1": 22,
+        "s2": 10.5,
+        "s3": 14,
+        "s4": 8,
+        "s5": 28,
+        "s6": 8,
+        "s7": 0,
+        "total": 90.5
+      }
+    },
     "10022": {
       "name": "MUHAMMED ZIYAD V",
       "college": "Jabalunnoor Islamic Complex, Perambra",
