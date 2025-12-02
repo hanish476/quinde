@@ -236,7 +236,7 @@ useEffect(() => {
                  focus:outline-none focus:ring-2 focus:ring-white/40 animate-bounce"
       aria-label="Scroll to Spelling Bee results section"
     >
-      <span>See Spelling Bee Results Link</span>
+      <span>Spelling Bee Results Link</span>
       <ArrowBigDown size={16} className="text-white" />
     </button>
   </div>

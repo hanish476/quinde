@@ -53,7 +53,7 @@ const Confetti = ({ x, y, isActive, onComplete }) => {
 
     return null;
 };
-
+ const sections = [ "MCQs",   'DICTATION', "PICTURE STORY", "LISTENING", "CROSSWORD",'WORD BUILDING', "MATCH THE FOLLOWING"];
 
 
 const EliminationResults = () => {
@@ -185,6 +185,8 @@ const EliminationResults = () => {
         }, 2000);
     }, []);
 
+
+    useEffect(() => {console.log(sections[1])})
     return (
         <div className="min-h-screen bg-brrown/10 py-8 px-4 sm:px-6  mt-20 relative">
             {/* Flying Bees starting from center */}
@@ -388,7 +390,7 @@ const EliminationResults = () => {
                                                     key={i}
                                                     className="grid grid-cols-2 py-3 px-4 border-b border-[#F2EDE7] last:border-0 hover:bg-[#FCFAF7] transition-colors"
                                                 >
-                                                    <span className="text-[#795548] font-medium">Section {i}</span>
+                                                    <span className="text-[#795548] font-medium">{sections[i - 1]}</span>
                                                     <span className="text-right text-[#4E342E] font-semibold tabular-nums">
                                                         {scores[`s${i}`]?.toFixed(1) || '-'}
                                                     </span>
@@ -421,7 +423,7 @@ const EliminationResults = () => {
                                                         className={`text-sm font-bold uppercase tracking-wide ${isSelected ? 'text-[#0D9488]' : 'text-[#5D4037]'
                                                             }`}
                                                     >
-                                                        {isSelected ? 'Selected for Final Round' : 'You are not selected, Participation Recorded'}
+                                                        {isSelected ? 'Selected for Final Round' : ' Participation Recorded'}
                                                     </h3>
                                                     <p className="text-xs text-[#795548] mt-0.5">
                                                         {isSelected
