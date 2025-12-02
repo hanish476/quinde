@@ -227,7 +227,7 @@ useEffect(() => {
   <div className="fixed bottom-6 md:bottom-8 right-4 md:right-6 z-50 w-[90vw] max-w-xs md:max-w-sm">
     <button
       onClick={handleScrollToSection}
-      className="w-full px-5 py-2.5 rounded-xl 
+      className="w-full px-2 py-2.5 rounded-xl 
                  backdrop-blur-sm bg-brrown/80 border border-white/50 shadow-sm
                  text-white font-medium text-sm tracking-wide
                  flex items-center justify-center gap-2
@@ -236,7 +236,7 @@ useEffect(() => {
                  focus:outline-none focus:ring-2 focus:ring-white/40 animate-bounce"
       aria-label="Scroll to Spelling Bee results section"
     >
-      <span>Spelling Bee Results Link</span>
+      <span className="text-xl">Spelling Bee Results Link</span>
       <ArrowBigDown size={16} className="text-white" />
     </button>
   </div>
