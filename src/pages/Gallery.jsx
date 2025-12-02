@@ -15,20 +15,19 @@ const Gallery = () => {
   const accentLight = "#c8b8a8";
   const accentDark = "#3d1a00";
 
-  // Gallery images data
-  const galleryItems = [
-    { id: 1, title: "Opening Ceremony", description: "Grand opening of the 15th anniversary celebration" },
-    { id: 2, title: "Cultural Performance", description: "Traditional dance performance by students" },
-    { id: 3, title: "Academic Symposium", description: "Students presenting their research" },
-    { id: 4, title: "Alumni Gathering", description: "Reunion of past students" },
-    { id: 5, title: "Sports Tournament", description: "Competitive sports events" },
-    { id: 6, title: "Cultural Gala", description: "Evening of music and dance" },
-    { id: 7, title: "Award Ceremony", description: "Recognition of outstanding achievements" },
-    { id: 8, title: "Closing Ceremony", description: "Grand finale with fireworks" },
-    { id: 9, title: "Group Photo", description: "Memorable group picture" },
-    { id: 10, title: "Workshop Session", description: "Interactive learning sessions" },
-    { id: 11, title: "Cultural Exhibition", description: "Showcasing local heritage" },
-    { id: 12, title: "Food Festival", description: "Traditional cuisine from the region" }
+  // Gallery images data - update paths as needed
+  const images = [
+    '/gallery/1.jpg',
+    '/gallery/2.jpg',
+    '/gallery/3.jpg',
+    '/gallery/4.jpg',
+    '/gallery/5.jpg',
+    '/gallery/6.jpg',
+    '/gallery/7.jpg',
+    '/gallery/8.jpg',
+    '/gallery/9.jpg',
+    '/gallery/10.jpg',
+    '/gallery/11.jpg',
   ];
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -41,68 +40,82 @@ const Gallery = () => {
     <motion.div
       ref={containerRef}
       style={{ backgroundColor: bgColor }}
-      className="h-[200vh] w-full relative z-30"
+      className="w-full relative z-30 py-20"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden pt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top section title */}
         <motion.div
-          className="absolute top-20 left-5 md:left-24 z-20"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="mb-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-3xl font-bold text-brrown tracking-widest uppercase">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#572a01] tracking-widest uppercase">
             Gallery
           </h1>
-          <div className="mt-2 w-12 h-0.5" style={{ backgroundColor: fgColor }} />
+          <div className="mt-4 w-24 h-1 mx-auto" style={{ backgroundColor: fgColor }} />
         </motion.div>
 
-      <div className="absolute top-1/2 left-1/8 md:left-1/4 text-brrown text-3xl md:text-4xl font-medium">
-        <h1>we will update it soon</h1>
-      </div>
-        {/* Background logo on the right */}
-        <div
-          className="absolute top-0 right-0 w-5/12 h-full opacity-5 md:opacity-20 pointer-events-none"
+        {/* Gallery Grid */}
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           style={{
-            backgroundImage: `url('/logo.svg')`,
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center right',
-            backgroundSize: 'contain',
+            opacity: 100,
+            scale: galleryScale
           }}
-        />
-        <div
-          className="h-full w-2/4 absolute top-0 right-0 bg-linear-to-l from-brrown opacity-15 blur-2xl md:opacity-20 pointer-events-none"
-        />
+        >
+          {images.map((img, index) => (
+        // Gallery Item
+        <>
+            <motion.div
+              key={index}
+              className="overflow-hidden rounded-lg shadow-xl cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              whileHover={{ y: -10 }}
+              onClick={() => setSelectedImage({ id: index, src: img })}
+            >
+              <div className="aspect-[3/4] w-full overflow-hidden"> {/* A4 aspect ratio (3:4) */}
+                <motion.img
+                  src={img}
+                  alt={`Gallery item ${index + 1}`}
+                  className="w-full h-full object-cover object-center transition-opacity duration-300"
+                  whileHover={{ scale: 1.1 }}
+                />
+              </div>
+            </motion.div>
+            
+        </>
+          ))}
+        </motion.div>
 
         {/* Modal for selected image */}
         {selectedImage && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
             onClick={() => setSelectedImage(null)}
           >
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
-              className="bg-white p-8 rounded-lg max-w-2xl max-h-[80vh] overflow-auto"
+              className="relative max-w-6xl max-h-[90vh] w-full"
               onClick={(e) => e.stopPropagation()}
             >
-              <div 
-                className="w-full h-64 bg-cover bg-center rounded-lg mb-4"
-                style={{
-                  backgroundImage: `url('/gallery-${selectedImage.id}.jpg')`,
-                  backgroundColor: accentLight
-                }}
-              />
-              <h2 className="text-2xl font-bold mb-2" style={{ color: fgColor }}>{selectedImage.title}</h2>
-              <p className="text-gray-600">{selectedImage.description}</p>
               <button
-                className="mt-4 px-4 py-2 bg-brrown text-cream rounded hover:bg-opacity-80 transition-colors"
+                className="absolute top-4 right-4 z-10 bg-white bg-opacity-20 text-white rounded-full p-2 hover:bg-opacity-30 transition-all"
                 onClick={() => setSelectedImage(null)}
               >
-                Close
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
+              <div className="aspect-[3/4] w-full max-h-[80vh] overflow-hidden rounded-lg">
+                <img
+                  src={selectedImage.src}
+                  alt={`Gallery item ${selectedImage.id + 1}`}
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </motion.div>
           </motion.div>
         )}
